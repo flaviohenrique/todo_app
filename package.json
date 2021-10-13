@@ -7,5 +7,11 @@
   ],
   "devDependencies": {
     "@yarnpkg/sdks": "^2.4.2-rc.8"
+  },
+  "scripts": {
+    "server": "yarn workspace server"
+  },
+  "dependencies": {
+    "typescript": "^4.4.4"
   }
 }
