@@ -24,6 +24,7 @@
     "dev": "ts-node-dev ./src/app.ts",
     "typeorm:cli": "ts-node --cwd-mode $(yarn bin typeorm)",
     "db:migration:generate": "yarn run typeorm:cli migration:generate -p",
-    "db:migration:run": "yarn run typeorm:cli migration:run"
+    "db:migration:run": "yarn run typeorm:cli migration:run",
+    "db:migration:create": "yarn run typeorm:cli migration:create -n"
   }
 }

@@ -35,11 +35,7 @@ getConnection()
         if (user) {
           res.locals.user = user;
         } else {
-          res.locals.user = userService.create({
-            name: "First Name",
-            email: "some_email@email.com",
-            password: "123456",
-          });
+          res.status(403).json({});
         }
       }
 
