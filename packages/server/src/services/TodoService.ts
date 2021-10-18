@@ -45,7 +45,10 @@ export class TodoService {
     });
   }
 
-  async create(user: User, params: Partial<Todo> = {}): Promise<Todo | undefined> {
+  async create(
+    user: User,
+    params: Partial<Todo> = {}
+  ): Promise<Todo | undefined> {
     const todo = new Todo(
       params.description || "",
       new Date(),
@@ -53,7 +56,7 @@ export class TodoService {
       undefined,
       params.more_description
     );
-    todo.user = user
+    todo.user = user;
 
     return this.repository.save(todo);
   }

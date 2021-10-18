@@ -17,7 +17,7 @@
   "scripts": {
     "server": "yarn workspace server",
     "format": "yarn run prettier '**/*.ts' --write",
-    "lint": "eslint . --ext .ts"
+    "lint": "eslint . --ext .ts --fix"
   },
   "dependencies": {
     "typescript": "^4.4.4"
