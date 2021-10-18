@@ -1,10 +1,12 @@
+import { User } from "./entity/User";
 import "reflect-metadata";
 
-import express, { Request, Response } from "express";
-import { createConnection, ConnectionOptions, Connection } from "typeorm";
+import express, { NextFunction, Request, Response } from "express";
+import { createConnection, ConnectionOptions } from "typeorm";
 import { join } from "path";
 import { readJson } from "fs-extra";
 import { TodoService } from "./services/TodoService";
+import { UserService } from "./services/UserService";
 
 export const getConnection = async (): Promise<ConnectionOptions> => {
   const config: ConnectionOptions = await readJson(
@@ -24,14 +26,25 @@ app.use(express.json());
 getConnection()
   .then(createConnection)
   .then(async (connection) => {
-    // console.log("Inserting a new todo into the database...");
-    // const todo = new Todo("Todo", new Date(), new Date(), undefined, "More Todo");
+    app.use(async function (req: Request, res: Response, next: NextFunction) {
+      if (req.headers["token"]) {
+        const userService = new UserService(connection);
 
-    // const todoService = new TodoService(connection)
+        let user = await userService.findById(Number(req.headers["token"]));
 
-    // //todoService.save(todo)
+        if (user) {
+          res.locals.user = user;
+        } else {
+          res.locals.user = userService.create({
+            name: "First Name",
+            email: "some_email@email.com",
+            password: "123456",
+          });
+        }
+      }
 
-    // console.log("Finishing a new todo into the database...");
+      next();
+    });
 
     app.get("/todos/", (req: Request, res: Response) => {
       const todoService = new TodoService(connection);
@@ -39,8 +52,10 @@ getConnection()
     });
 
     app.post("/todos", (req: Request, res: Response) => {
+      const user = <User>res.locals.user
+
       const todoService = new TodoService(connection);
-      todoService.create(req.body).then((todo) => res.json(todo));
+      todoService.create(user, req.body).then((todo) => res.json(todo));
     });
 
     app.put("/todos/:id", (req: Request, res: Response) => {

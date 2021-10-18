@@ -1,5 +1,6 @@
 import { Connection, Repository } from "typeorm";
 import { Todo } from "../entity/Todo";
+import { User } from "../entity/User";
 
 export class TodoService {
   private repository: Repository<Todo>;
@@ -12,7 +13,7 @@ export class TodoService {
     await this.repository.save(todo);
   }
 
-  async list(): Promise<any> {
+  async list(): Promise<Todo[] | undefined> {
     return this.repository.find();
   }
 
@@ -44,7 +45,7 @@ export class TodoService {
     });
   }
 
-  async create(params: Partial<Todo> = {}): Promise<Todo | undefined> {
+  async create(user: User, params: Partial<Todo> = {}): Promise<Todo | undefined> {
     const todo = new Todo(
       params.description || "",
       new Date(),
@@ -52,6 +53,7 @@ export class TodoService {
       undefined,
       params.more_description
     );
+    todo.user = user
 
     return this.repository.save(todo);
   }
