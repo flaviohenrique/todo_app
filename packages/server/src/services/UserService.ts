@@ -1,12 +1,11 @@
-import { User, UserCreateParams } from "./../entity/User";
-import { Connection, Repository } from "typeorm";
+import { UserRepository } from './../repositories/UserRepository';
+import { User, UserCreateParams } from "../entities/User";
+import { Service } from "typedi";
+import { InjectRepository } from 'typeorm-typedi-extensions';
 
+@Service()
 export class UserService {
-  private repository: Repository<User>;
-
-  constructor(connection: Connection) {
-    this.repository = connection.getRepository(User);
-  }
+  constructor(@InjectRepository(UserRepository) private repository: UserRepository) { }
 
   async save(user: User): Promise<void> {
     await this.repository.save(user);

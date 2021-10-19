@@ -1,13 +1,11 @@
 import { UserService } from "../services/UserService";
 import { Connection } from "typeorm";
 import { Request, Response, NextFunction } from "express";
+import { Service } from "typedi";
 
+@Service()
 export class UserController {
-  private readonly userService: UserService;
-
-  constructor(private connection: Connection) {
-    this.userService = new UserService(connection);
-  }
+  constructor(private readonly userService: UserService) { }
 
   async checkUserToken(req: Request, res: Response, next: NextFunction) {
     if (req.headers["token"]) {

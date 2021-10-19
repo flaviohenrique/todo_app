@@ -3476,6 +3476,7 @@ resolve@^1.0.0:
     ts-node-dev: ^1.1.8
     typedi: ^0.10.0
     typeorm: 0.2.38
+    typeorm-typedi-extensions: ^0.4.1
     typescript: ^4.4.4
   languageName: unknown
   linkType: soft
@@ -4005,6 +4006,16 @@ resolve@^1.0.0:
   version: 0.10.0
   resolution: "typedi@npm:0.10.0"
   checksum: d26491e3684677d898f745b2ea5403cad4e03f7ed87b35d0a1cc80cbb4837d50042e100574da77d56dd04e3f0270a6f7df18270171c828bec6b93cefbac059a3
+  languageName: node
+  linkType: hard
+
+"typeorm-typedi-extensions@npm:^0.4.1":
+  version: 0.4.1
+  resolution: "typeorm-typedi-extensions@npm:0.4.1"
+  peerDependencies:
+    typedi: ">=0.10.0"
+    typeorm: ">=0.2.30"
+  checksum: 9e5e042e948fbf936f8e2ea80640eb40da9e6d128cbc8cabaa26e15ea34108964d1ba46eb090ffb70def3a14e4419b42ec397c06f1d8b4e9aef979649343e5bb
   languageName: node
   linkType: hard
 

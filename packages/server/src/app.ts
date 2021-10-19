@@ -1,46 +1,26 @@
-import { TodoController } from "./controllers/TodoController";
-import { UserController } from "./controllers/UserController";
-
 import "reflect-metadata";
 
 import express, { NextFunction, Request, Response } from "express";
-import { createConnection } from "typeorm";
+import { createConnection, useContainer } from "typeorm";
+import { Container } from "typeorm-typedi-extensions";
 
 import { getConnection } from "./infrastructure/db";
+import { Router } from "./routes";
+
+
+useContainer(Container)
 
 const app = express();
 
 app.use(express.json());
 
+
 getConnection()
   .then(createConnection)
-  .then(async (connection) => {
-    const todoController = new TodoController(connection);
-    const userController = new UserController(connection);
+  .then(async (_connection) => {
+    const routes = Container.get<Router>(Router)
 
-    app.use(async function (req: Request, res: Response, next: NextFunction) {
-      userController.checkUserToken(req, res, next);
-    });
-
-    app.get("/todos/", (req: Request, res: Response) => {
-      todoController.getAllTodos(req, res);
-    });
-
-    app.post("/todos", (req: Request, res: Response) => {
-      todoController.createTodo(req, res);
-    });
-
-    app.put("/todos/:id", (req: Request, res: Response) => {
-      todoController.updateTodo(req, res);
-    });
-
-    app.get("/todos/:id", (req: Request, res: Response) => {
-      todoController.getTodo(req, res);
-    });
-
-    app.delete("/todos/:id", (req: Request, res: Response) => {
-      todoController.deleteTodo(req, res);
-    });
+    routes.register(app)
   })
   .catch((error) => console.log(error));
 

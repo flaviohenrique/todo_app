@@ -1,14 +1,12 @@
 import { TodoService } from "../services/TodoService";
-import { Connection } from "typeorm";
 import { Request, Response } from "express";
-import { User } from "../entity/User";
+import { User } from "../entities/User";
+import { Service } from "typedi";
 
+@Service()
 export class TodoController {
-  private readonly todoService: TodoService;
+  constructor(private readonly todoService: TodoService) { }
 
-  constructor(private connection: Connection) {
-    this.todoService = new TodoService(connection);
-  }
 
   getAllTodos(req: Request, res: Response) {
     this.todoService.list().then((todos) => res.json(todos));

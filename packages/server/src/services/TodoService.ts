@@ -1,13 +1,12 @@
-import { Connection, Repository } from "typeorm";
-import { Todo } from "../entity/Todo";
-import { User } from "../entity/User";
+import { Service } from "typedi";
+import { InjectRepository } from "typeorm-typedi-extensions";
+import { Todo } from "../entities/Todo";
+import { User } from "../entities/User";
+import { TodoRepository } from "../repositories/TodoRepository";
 
+@Service()
 export class TodoService {
-  private repository: Repository<Todo>;
-
-  constructor(connection: Connection) {
-    this.repository = connection.getRepository(Todo);
-  }
+  constructor(@InjectRepository(TodoRepository) private repository: TodoRepository) { }
 
   async save(todo: Todo): Promise<void> {
     await this.repository.save(todo);
