@@ -3474,7 +3474,9 @@ resolve@^1.0.0:
     reflect-metadata: ^0.1.13
     ts-node: ^10.3.0
     ts-node-dev: ^1.1.8
+    typedi: ^0.10.0
     typeorm: 0.2.38
+    typeorm-typedi-extensions: ^0.4.1
     typescript: ^4.4.4
   languageName: unknown
   linkType: soft
@@ -3997,6 +3999,23 @@ resolve@^1.0.0:
     media-typer: 0.3.0
     mime-types: ~2.1.24
   checksum: 2c8e47675d55f8b4e404bcf529abdf5036c537a04c2b20177bcf78c9e3c1da69da3942b1346e6edb09e823228c0ee656ef0e033765ec39a70d496ef601a0c657
+  languageName: node
+  linkType: hard
+
+"typedi@npm:^0.10.0":
+  version: 0.10.0
+  resolution: "typedi@npm:0.10.0"
+  checksum: d26491e3684677d898f745b2ea5403cad4e03f7ed87b35d0a1cc80cbb4837d50042e100574da77d56dd04e3f0270a6f7df18270171c828bec6b93cefbac059a3
+  languageName: node
+  linkType: hard
+
+"typeorm-typedi-extensions@npm:^0.4.1":
+  version: 0.4.1
+  resolution: "typeorm-typedi-extensions@npm:0.4.1"
+  peerDependencies:
+    typedi: ">=0.10.0"
+    typeorm: ">=0.2.30"
+  checksum: 9e5e042e948fbf936f8e2ea80640eb40da9e6d128cbc8cabaa26e15ea34108964d1ba46eb090ffb70def3a14e4419b42ec397c06f1d8b4e9aef979649343e5bb
   languageName: node
   linkType: hard
 
