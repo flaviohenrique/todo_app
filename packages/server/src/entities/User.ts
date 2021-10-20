@@ -1,7 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm";
-import { Todo } from "./Todo";
+import { Todo } from "./todo";
 
-export type UserCreateParams = Pick<User, "name" | "email" | "password">;
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()

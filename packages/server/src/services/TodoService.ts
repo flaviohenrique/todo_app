@@ -1,7 +1,7 @@
 import { Service } from "typedi";
 import { InjectRepository } from "typeorm-typedi-extensions";
-import { Todo } from "../entities/Todo";
-import { User } from "../entities/User";
+import { Todo } from "../entities/todo";
+import { User } from "../entities/user";
 import { TodoRepository } from "../repositories/TodoRepository";
 
 @Service()

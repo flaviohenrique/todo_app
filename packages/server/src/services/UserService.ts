@@ -1,5 +1,5 @@
 import { UserRepository } from './../repositories/UserRepository';
-import { User, UserCreateParams } from "../entities/User";
+import { User } from "../entities/user";
 import { Service } from "typedi";
 import { InjectRepository } from 'typeorm-typedi-extensions';
 
@@ -19,9 +19,9 @@ export class UserService {
     return this.repository.findOne(id);
   }
 
-  async create(params: UserCreateParams): Promise<User | undefined> {
-    const user = new User(params.name, params.email, params.password);
+  // async create(params: UserCreateParams): Promise<User | undefined> {
+  //   const user = new User(params.name, params.email, params.password);
 
-    return this.repository.save(user);
-  }
+  //   return this.repository.save(user);
+  // }
 }

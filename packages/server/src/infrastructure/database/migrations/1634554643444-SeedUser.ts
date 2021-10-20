@@ -1,4 +1,4 @@
-import { User } from '../entities/User';
+import { User } from '../../../entities/user';
 import { firstUsers } from "./seeds/users.seed";
 import { MigrationInterface, QueryRunner, getRepository } from "typeorm";
 

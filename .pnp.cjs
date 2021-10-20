@@ -62,6 +62,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["@badrap/result", [
+        ["npm:0.2.8", {
+          "packageLocation": "./.yarn/cache/@badrap-result-npm-0.2.8-5c27fe52d8-c4cc321421.zip/node_modules/@badrap/result/",
+          "packageDependencies": [
+            ["@badrap/result", "npm:0.2.8"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["@cspotcode/source-map-consumer", [
         ["npm:0.8.0", {
           "packageLocation": "./.yarn/cache/@cspotcode-source-map-consumer-npm-0.8.0-1f37e9e72b-c0c16ca3d2.zip/node_modules/@cspotcode/source-map-consumer/",
@@ -4121,6 +4130,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/server/",
           "packageDependencies": [
             ["server", "workspace:packages/server"],
+            ["@badrap/result", "npm:0.2.8"],
             ["@types/express", "npm:4.17.13"],
             ["@types/fs-extra", "npm:9.0.13"],
             ["@types/node", "npm:16.10.4"],

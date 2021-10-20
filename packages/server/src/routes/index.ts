@@ -1,3 +1,4 @@
+import { CreateUserController } from './../modules/users/create-user/create-user.http.controller';
 import express, { NextFunction, Request, Response } from 'express';
 import { Service } from 'typedi';
 import { TodoController } from "../controllers/TodoController";
@@ -8,6 +9,7 @@ export class Router {
   constructor(
     private readonly todoController: TodoController,
     private readonly userController: UserController,
+    private readonly createUserController: CreateUserController,
   ) {
   }
 
@@ -35,5 +37,9 @@ export class Router {
     app.delete("/todos/:id", (req: Request, res: Response) => {
       this.todoController.deleteTodo(req, res);
     });
+
+    app.post("/users", (req, res) => {
+      this.createUserController.create(req, res)
+    })
   }
 }
