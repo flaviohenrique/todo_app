@@ -10,7 +10,7 @@ export class UserRepository extends Repository<User> {
   }
 
   async exists(email: string): Promise<boolean> {
-    const found = await this.findByEmail(email)
-    return found ? true : false
+    const found = await this.findByEmail(email);
+    return found ? true : false;
   }
 }

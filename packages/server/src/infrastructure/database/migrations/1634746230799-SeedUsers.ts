@@ -3,7 +3,7 @@ import { firstUsers } from "./seeds/users.seed";
 
 import { MigrationInterface, QueryRunner, getRepository } from "typeorm";
 
-export class SeedUsers1634740198967 implements MigrationInterface {
+export class SeedUsers1634746230799 implements MigrationInterface {
 
     public async up(_queryRunner: QueryRunner): Promise<void> {
         firstUsers.forEach(async (user: Partial<User>) => {

@@ -1,5 +1,4 @@
 import { UserService } from "../services/UserService";
-import { Connection } from "typeorm";
 import { Request, Response, NextFunction } from "express";
 import { Service } from "typedi";
 
@@ -9,11 +8,10 @@ export class UserController {
 
   async checkUserToken(req: Request, res: Response, next: NextFunction) {
     if (req.headers["token"]) {
-      const user = await this.userService.findById(
-        Number(req.headers["token"])
-      );
+      const user = await this.userService.findById(String(req.headers["token"]));
 
       if (user) {
+        console.log(user)
         res.locals.user = user;
       } else {
         res.status(403);

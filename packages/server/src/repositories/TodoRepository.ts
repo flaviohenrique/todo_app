@@ -4,5 +4,4 @@ import { Todo } from "../entities/todo";
 
 @Service()
 @EntityRepository(Todo)
-export class TodoRepository extends Repository<Todo> {
-}
+export class TodoRepository extends Repository<Todo> {}

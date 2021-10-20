@@ -7,16 +7,15 @@ import { Service } from "typedi";
 export class TodoController {
   constructor(private readonly todoService: TodoService) { }
 
+  // getAllTodos(req: Request, res: Response) {
+  //   this.todoService.list().then((todos) => res.json(todos));
+  // }
 
-  getAllTodos(req: Request, res: Response) {
-    this.todoService.list().then((todos) => res.json(todos));
-  }
+  // createTodo(req: Request, res: Response) {
+  //   const user = <User>res.locals.user;
 
-  createTodo(req: Request, res: Response) {
-    const user = <User>res.locals.user;
-
-    this.todoService.create(user, req.body).then((todo) => res.json(todo));
-  }
+  //   //this.todoService.create(user, req.body).then((todo) => res.json(todo));
+  // }
 
   updateTodo(req: Request, res: Response) {
     this.todoService

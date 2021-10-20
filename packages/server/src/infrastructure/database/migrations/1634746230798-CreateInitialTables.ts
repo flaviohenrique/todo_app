@@ -1,7 +1,7 @@
 import {MigrationInterface, QueryRunner} from "typeorm";
 
-export class CreateInitialTables1634740080121 implements MigrationInterface {
-    name = 'CreateInitialTables1634740080121'
+export class CreateInitialTables1634746230798 implements MigrationInterface {
+    name = 'CreateInitialTables1634746230798'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`
@@ -17,11 +17,11 @@ export class CreateInitialTables1634740080121 implements MigrationInterface {
         `);
         await queryRunner.query(`
             CREATE TABLE "todo" (
-                "id" SERIAL NOT NULL,
+                "id" character varying NOT NULL,
+                "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(),
+                "updatedAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(),
                 "description" character varying NOT NULL,
-                "more_description" character varying,
-                "createdAt" TIMESTAMP NOT NULL,
-                "updatedAt" TIMESTAMP NOT NULL,
+                "moreDescription" character varying,
                 "userId" character varying,
                 CONSTRAINT "PK_d429b7114371f6a35c5cb4776a7" PRIMARY KEY ("id")
             )

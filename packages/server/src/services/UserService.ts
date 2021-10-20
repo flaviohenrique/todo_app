@@ -1,11 +1,13 @@
-import { UserRepository } from './../repositories/UserRepository';
+import { UserRepository } from "./../repositories/UserRepository";
 import { User } from "../entities/user";
 import { Service } from "typedi";
-import { InjectRepository } from 'typeorm-typedi-extensions';
+import { InjectRepository } from "typeorm-typedi-extensions";
 
 @Service()
 export class UserService {
-  constructor(@InjectRepository(UserRepository) private repository: UserRepository) { }
+  constructor(
+    @InjectRepository(UserRepository) private repository: UserRepository
+  ) { }
 
   async save(user: User): Promise<void> {
     await this.repository.save(user);
@@ -15,7 +17,7 @@ export class UserService {
     return this.repository.find();
   }
 
-  async findById(id: number): Promise<User | undefined> {
+  async findById(id: string): Promise<User | undefined> {
     return this.repository.findOne(id);
   }
 

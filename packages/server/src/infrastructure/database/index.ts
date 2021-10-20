@@ -14,7 +14,7 @@ export const getConnectionConfig = async (): Promise<ConnectionOptions> => {
 };
 
 export const withConnection = async (): Promise<Connection> => {
-  const options = await getConnectionConfig()
+  const options = await getConnectionConfig();
 
-  return createConnection(options)
-}
+  return createConnection(options);
+};

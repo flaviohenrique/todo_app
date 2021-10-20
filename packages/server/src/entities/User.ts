@@ -1,6 +1,6 @@
 import { Entity, Column, OneToMany } from "typeorm";
 import { Todo } from "./todo";
-import { EntityBase } from "../infrastructure/database/entity.base"
+import { EntityBase } from "../infrastructure/database/entity.base";
 
 @Entity()
 export class User extends EntityBase {

@@ -1,4 +1,4 @@
-import { CreateDateColumn, PrimaryColumn, UpdateDateColumn } from 'typeorm';
+import { CreateDateColumn, PrimaryColumn, UpdateDateColumn } from "typeorm";
 
 export abstract class EntityBase {
   constructor(props?: unknown) {
@@ -11,13 +11,13 @@ export abstract class EntityBase {
   id!: string;
 
   @CreateDateColumn({
-    type: 'timestamptz',
+    type: "timestamptz",
     update: false,
   })
   createdAt!: Date;
 
   @UpdateDateColumn({
-    type: 'timestamptz',
+    type: "timestamptz",
   })
   updatedAt!: Date;
 }
