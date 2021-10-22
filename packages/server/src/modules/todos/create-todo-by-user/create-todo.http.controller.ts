@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { Service } from "typedi";
-import { UserNotFoundError } from "../errors";
 import { CreateTodoByUserService } from "./create-todo.service";
 import { User } from "../../../entities/user"
 
@@ -17,13 +16,7 @@ export class CreateTodoByUserController {
       (todo) => {
         res.status(200).json(todo);
       },
-      (error) => {
-        if (error instanceof UserNotFoundError) {
-          res.status(404).json(error.toJSON(true));
-        } else {
-          throw error;
-        }
-      }
+      (error) => { throw error; }
     );
   }
 }

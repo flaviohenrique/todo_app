@@ -1,4 +1,4 @@
-import { Entity, Column, ManyToOne } from "typeorm";
+import { Entity, Column, ManyToOne, JoinColumn } from "typeorm";
 import { User } from "./user";
 import { EntityBase } from "../infrastructure/database/entity.base";
 
@@ -15,6 +15,10 @@ export class Todo extends EntityBase {
   })
   moreDescription?: string;
 
-  @ManyToOne(() => User, (user) => user.todos)
-  user?: User;
+  @Column()
+  userId!: string;
+
+  @ManyToOne(() => User, (user) => user)
+  @JoinColumn({ name: 'userId' })
+  _user?: User;
 }

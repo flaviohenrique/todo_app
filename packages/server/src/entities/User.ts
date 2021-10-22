@@ -17,6 +17,6 @@ export class User extends EntityBase {
   @Column()
   password!: string;
 
-  @OneToMany(() => Todo, (todo) => todo.user)
-  todos?: Todo[];
+  // @OneToMany(() => Todo, (todo) => todo.user)
+  // todos?: Todo[];
 }

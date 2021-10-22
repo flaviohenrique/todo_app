@@ -11,7 +11,6 @@ export class UserController {
       const user = await this.userService.findById(String(req.headers["token"]));
 
       if (user) {
-        console.log(user)
         res.locals.user = user;
       } else {
         res.status(403);
