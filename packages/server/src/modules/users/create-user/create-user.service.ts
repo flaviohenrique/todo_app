@@ -1,4 +1,4 @@
-import { UserRepository } from "../../../repositories/UserRepository";
+import { UserRepository } from "../user.repository";
 import { UserEntity, ICreateUser } from "../../users/user";
 import { Service } from "typedi";
 import { Result } from "@badrap/result";

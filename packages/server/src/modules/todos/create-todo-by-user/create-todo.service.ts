@@ -1,4 +1,4 @@
-import { TodoRepository } from "../../../repositories/TodoRepository";
+import { TodoRepository } from "../todo.repository";
 import { TodoEntity, ICreateTodo } from "../../todos/todo";
 import { Service } from "typedi";
 import { Result } from "@badrap/result";

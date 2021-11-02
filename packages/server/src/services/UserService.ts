@@ -1,5 +1,5 @@
 import { UserEntity } from './../modules/users/user';
-import { UserRepository } from "./../repositories/UserRepository";
+import { UserRepository } from "../modules/users/user.repository";
 import { User } from "../entities/user";
 import { Service } from "typedi";
 import { InjectRepository } from "typeorm-typedi-extensions";

@@ -1,5 +1,5 @@
 import { TodoEntity } from "../todo";
-import { TodoRepository } from "../../../repositories/TodoRepository";
+import { TodoRepository } from "../todo.repository";
 import { Service } from "typedi";
 import { Result } from "@badrap/result";
 import { ExceptionBase } from "../../../shared/errors";

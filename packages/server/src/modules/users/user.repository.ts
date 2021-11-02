@@ -1,11 +1,11 @@
 import { Service } from "typedi";
 import { Repository } from "typeorm";
 import { InjectRepository } from "typeorm-typedi-extensions";
-import { User } from "../entities/user";
-import { UserEntity } from "../modules/users/user";
-import { UserCreatedEvent } from '../modules/users/events';
-import { DomainEvents } from "../infrastructure/events";
-import { BaseRepository } from "../infrastructure/repositories";
+import { User } from "../../entities/user";
+import { UserEntity } from "./user";
+import { UserCreatedEvent } from './events';
+import { DomainEvents } from "../../infrastructure/events";
+import { BaseRepository } from "../../infrastructure/repositories";
 
 @Service()
 export class UserRepository extends BaseRepository {
