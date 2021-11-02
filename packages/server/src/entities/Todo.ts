@@ -1,35 +1,24 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
-import { User } from "./User";
+import { Entity, Column, ManyToOne, JoinColumn } from "typeorm";
+import { User } from "./user";
+import { EntityBase } from "../infrastructure/database/entity.base";
 
 @Entity()
-export class Todo {
-  @PrimaryGeneratedColumn()
-  id?: number;
+export class Todo extends EntityBase {
+  constructor(props?: Partial<Todo>) {
+    super(props);
+  }
+
   @Column()
-  description: string;
+  description!: string;
   @Column({
     nullable: true,
   })
-  more_description?: string;
-  @Column()
-  createdAt: Date;
-  @Column()
-  updatedAt: Date;
+  moreDescription?: string;
 
-  @ManyToOne(() => User, (user) => user.todos)
-  user?: User;
+  @Column()
+  userId!: string;
 
-  constructor(
-    description: string,
-    createdAt: Date,
-    updatedAt: Date,
-    id?: number,
-    more_description?: string
-  ) {
-    this.id = id;
-    this.description = description;
-    this.createdAt = createdAt;
-    this.updatedAt = updatedAt;
-    this.more_description = more_description;
-  }
+  @ManyToOne(() => User, (user) => user)
+  @JoinColumn({ name: 'userId' })
+  _user?: User;
 }

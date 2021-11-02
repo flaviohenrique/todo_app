@@ -5,10 +5,12 @@
     "@types/express": "^4.17.13",
     "@types/fs-extra": "^9.0.13",
     "@types/node": "^16.10.4",
+    "@types/uuid": "^8.3.1",
     "ts-node": "^10.3.0",
     "ts-node-dev": "^1.1.8"
   },
   "dependencies": {
+    "@badrap/result": "^0.2.8",
     "express": "^4.17.1",
     "fs-extra": "^10.0.0",
     "pg": "^8.7.1",
@@ -16,7 +18,8 @@
     "typedi": "^0.10.0",
     "typeorm": "0.2.38",
     "typeorm-typedi-extensions": "^0.4.1",
-    "typescript": "^4.4.4"
+    "typescript": "^4.4.4",
+    "uuid": "^8.3.2"
   },
   "nohoist": [
     "**/typeorm/**",
@@ -25,8 +28,8 @@
   "scripts": {
     "dev": "ts-node-dev ./src/app.ts",
     "typeorm:cli": "ts-node --cwd-mode $(yarn bin typeorm)",
-    "db:migration:generate": "yarn run typeorm:cli migration:generate -p",
-    "db:migration:run": "yarn run typeorm:cli migration:run",
-    "db:migration:create": "yarn run typeorm:cli migration:create -n"
+    "db:migration:generate": "yarn run typeorm:cli migration:generate -p -f src/infrastructure/configs/ormconfig.json",
+    "db:migration:run": "yarn run typeorm:cli migration:run -f src/infrastructure/configs/ormconfig.json",
+    "db:migration:create": "yarn run typeorm:cli migration:create -f src/infrastructure/configs/ormconfig.json -n"
   }
 }

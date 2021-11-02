@@ -1,22 +1,28 @@
+import { TodoEventHandlers } from './modules/todos/event.handlers';
 import "reflect-metadata";
 
 import express from "express";
 import { useContainer } from "typeorm";
 import { Container } from "typeorm-typedi-extensions";
 
-import { withConnection } from "./infrastructure/db";
+import { withConnection } from "./infrastructure/database";
 import { Router } from "./routes";
 
-
-useContainer(Container)
+useContainer(Container);
 
 const app = express();
 app.use(express.json());
 
-withConnection().then(async (_connection) => {
-  const routes = Container.get<Router>(Router)
+withConnection().then(
+  async (_connection) => {
+    const routes = Container.get<Router>(Router);
+    const todoEventHandlers = Container.get<TodoEventHandlers>(TodoEventHandlers);
 
-  routes.register(app)
-}).catch((error) => console.log(error));
+    todoEventHandlers.init()
 
-app.listen(3000)
+    routes.register(app);
+  },
+  (error) => console.log(error)
+);
+
+app.listen(3000);

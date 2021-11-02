@@ -4,7 +4,7 @@ import { createConnection, Connection, ConnectionOptions } from "typeorm";
 
 export const getConnectionConfig = async (): Promise<ConnectionOptions> => {
   const config: ConnectionOptions = await readJson(
-    join(process.cwd(), "/ormconfig.json")
+    join(process.cwd(), "src/infrastructure/configs/ormconfig.json")
   );
 
   if (!config) {
@@ -14,7 +14,7 @@ export const getConnectionConfig = async (): Promise<ConnectionOptions> => {
 };
 
 export const withConnection = async (): Promise<Connection> => {
-  const options = await getConnectionConfig()
+  const options = await getConnectionConfig();
 
-  return createConnection(options)
-}
+  return createConnection(options);
+};

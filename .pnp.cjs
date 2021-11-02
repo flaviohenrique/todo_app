@@ -62,6 +62,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["@badrap/result", [
+        ["npm:0.2.8", {
+          "packageLocation": "./.yarn/cache/@badrap-result-npm-0.2.8-5c27fe52d8-c4cc321421.zip/node_modules/@badrap/result/",
+          "packageDependencies": [
+            ["@badrap/result", "npm:0.2.8"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["@cspotcode/source-map-consumer", [
         ["npm:0.8.0", {
           "packageLocation": "./.yarn/cache/@cspotcode-source-map-consumer-npm-0.8.0-1f37e9e72b-c0c16ca3d2.zip/node_modules/@cspotcode/source-map-consumer/",
@@ -464,6 +473,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@types-treeify-npm-1.0.0-b5e04e9cd3-1b2397030d.zip/node_modules/@types/treeify/",
           "packageDependencies": [
             ["@types/treeify", "npm:1.0.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@types/uuid", [
+        ["npm:8.3.1", {
+          "packageLocation": "./.yarn/cache/@types-uuid-npm-8.3.1-4239b14bac-b41bdc5e86.zip/node_modules/@types/uuid/",
+          "packageDependencies": [
+            ["@types/uuid", "npm:8.3.1"]
           ],
           "linkType": "HARD",
         }]
@@ -4121,9 +4139,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/server/",
           "packageDependencies": [
             ["server", "workspace:packages/server"],
+            ["@badrap/result", "npm:0.2.8"],
             ["@types/express", "npm:4.17.13"],
             ["@types/fs-extra", "npm:9.0.13"],
             ["@types/node", "npm:16.10.4"],
+            ["@types/uuid", "npm:8.3.1"],
             ["express", "npm:4.17.1"],
             ["fs-extra", "npm:10.0.0"],
             ["pg", "virtual:2499dbb93d824027565d71b0716c4fb8b548ad61955d0a0286bfb3c5b4058e227894b6691d96808c00f576db14870018375210362c26ee321ea99fd6ed041c74#npm:8.7.1"],
@@ -4133,7 +4153,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["typedi", "npm:0.10.0"],
             ["typeorm", "virtual:2499dbb93d824027565d71b0716c4fb8b548ad61955d0a0286bfb3c5b4058e227894b6691d96808c00f576db14870018375210362c26ee321ea99fd6ed041c74#npm:0.2.38"],
             ["typeorm-typedi-extensions", "virtual:2499dbb93d824027565d71b0716c4fb8b548ad61955d0a0286bfb3c5b4058e227894b6691d96808c00f576db14870018375210362c26ee321ea99fd6ed041c74#npm:0.4.1"],
-            ["typescript", "patch:typescript@npm%3A4.4.4#~builtin<compat/typescript>::version=4.4.4&hash=32657b"]
+            ["typescript", "patch:typescript@npm%3A4.4.4#~builtin<compat/typescript>::version=4.4.4&hash=32657b"],
+            ["uuid", "npm:8.3.2"]
           ],
           "linkType": "SOFT",
         }]
@@ -4961,6 +4982,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/utils-merge-npm-1.0.1-363bbdfbca-c810954932.zip/node_modules/utils-merge/",
           "packageDependencies": [
             ["utils-merge", "npm:1.0.1"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["uuid", [
+        ["npm:8.3.2", {
+          "packageLocation": "./.yarn/cache/uuid-npm-8.3.2-eca0baba53-5575a8a75c.zip/node_modules/uuid/",
+          "packageDependencies": [
+            ["uuid", "npm:8.3.2"]
           ],
           "linkType": "HARD",
         }]
