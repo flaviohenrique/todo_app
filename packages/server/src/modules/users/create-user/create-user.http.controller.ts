@@ -5,7 +5,7 @@ import { CreateUserService } from "./create-user.service";
 
 @Service()
 export class CreateUserController {
-  constructor(private readonly createUserService: CreateUserService) {}
+  constructor(private readonly createUserService: CreateUserService) { }
 
   async create(req: Request, res: Response) {
     const result = await this.createUserService.execute(req.body);

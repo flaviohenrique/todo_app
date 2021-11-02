@@ -7,7 +7,7 @@ import { Todo } from "../entities/todo";
 @Service()
 export class TodoRepository {
   constructor(
-    @InjectRepository(Todo) private repository: Repository<Todo>,
+    @InjectRepository(Todo) private repository: Repository<Todo>
   ) { }
 
   async listAll(): Promise<TodoEntity[]> {
@@ -24,25 +24,7 @@ export class TodoRepository {
 
   async save(todo: TodoEntity): Promise<TodoEntity> {
     await this.repository.save(todo)
+
     return todo
   }
 }
-
-
-
-// import { Service } from "typedi";
-// import { EntityRepository, Repository } from "typeorm";
-// import { User } from "../entities/user";
-
-// @Service()
-// @EntityRepository(User)
-// export class UserRepository extends Repository<User> {
-//   async findByEmail(email: string): Promise<User | undefined> {
-//     return await this.findOne({ email });
-//   }
-
-//   async exists(email: string): Promise<boolean> {
-//     const found = await this.findByEmail(email);
-//     return found ? true : false;
-//   }
-// }

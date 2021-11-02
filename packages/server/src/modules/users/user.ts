@@ -1,5 +1,7 @@
 import { v4 as uuidv4 } from "uuid";
 import { User } from "../../entities/user";
+import { UserCreatedEvent } from "./events";
+import { IDomainEvent, IEventedEntity } from "../../infrastructure/events"
 
 export interface ICreateUser {
   name: string;
@@ -7,15 +9,23 @@ export interface ICreateUser {
   password: string;
 }
 
-export class UserEntity extends User {
-  static create(create: ICreateUser): UserEntity {
-    const id = uuidv4();
+export class UserEntity extends User implements IEventedEntity {
+  public readonly domainEvents: IDomainEvent[] = []
 
-    return new UserEntity({
-      id,
+  addDomainEvent(event: IDomainEvent) {
+    this.domainEvents.push(event);
+  }
+
+  static create(create: ICreateUser): UserEntity {
+    const entity = new UserEntity({
+      id: uuidv4(),
       createdAt: new Date(),
       updatedAt: new Date(),
       ...create,
     });
+
+    entity.addDomainEvent(new UserCreatedEvent(entity.id, entity.name))
+
+    return entity;
   }
 }

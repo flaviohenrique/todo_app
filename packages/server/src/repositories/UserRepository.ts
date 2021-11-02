@@ -1,16 +1,46 @@
 import { Service } from "typedi";
-import { EntityRepository, Repository } from "typeorm";
+import { Repository } from "typeorm";
+import { InjectRepository } from "typeorm-typedi-extensions";
 import { User } from "../entities/user";
+import { UserEntity } from "../modules/users/user";
+import { UserCreatedEvent } from '../modules/users/events';
+import { DomainEvents } from "../infrastructure/events";
+import { BaseRepository } from "../infrastructure/repositories";
 
 @Service()
-@EntityRepository(User)
-export class UserRepository extends Repository<User> {
-  async findByEmail(email: string): Promise<User | undefined> {
-    return await this.findOne({ email });
+export class UserRepository extends BaseRepository {
+  constructor(
+    @InjectRepository(User) private repository: Repository<User>,
+    protected domainEventsController: DomainEvents,
+  ) { super() }
+
+  async findByEmail(email: string): Promise<UserEntity | undefined> {
+    const user = await this.repository.findOne({ email })
+
+    if (user) return new UserEntity(user)
+
+    return user
   }
+
+  async findById(userId: string): Promise<UserEntity | undefined> {
+    const user = await this.repository.findOne(userId);
+
+    if (user) return new UserEntity(user)
+
+    return user
+  }
+
 
   async exists(email: string): Promise<boolean> {
     const found = await this.findByEmail(email);
     return found ? true : false;
+  }
+
+  async save(user: UserEntity): Promise<UserEntity> {
+    await this.repository.save(user)
+
+    this.dispatchEvents(user, UserCreatedEvent.eventName)
+
+    return user
   }
 }

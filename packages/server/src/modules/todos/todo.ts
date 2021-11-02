@@ -14,6 +14,7 @@ export interface IUpdateTodo extends ICreateTodo {
   id: string
 }
 
+
 export class TodoEntity extends Todo {
   belongsTo(userId: string): boolean {
     return this.userId === userId;

@@ -1,3 +1,4 @@
+import { TodoEventHandlers } from './modules/todos/event.handlers';
 import "reflect-metadata";
 
 import express from "express";
@@ -15,6 +16,9 @@ app.use(express.json());
 withConnection().then(
   async (_connection) => {
     const routes = Container.get<Router>(Router);
+    const todoEventHandlers = Container.get<TodoEventHandlers>(TodoEventHandlers);
+
+    todoEventHandlers.init()
 
     routes.register(app);
   },
