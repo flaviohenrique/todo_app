@@ -1,7 +1,7 @@
 import { Service } from "typedi";
 import { Repository } from "typeorm";
 import { InjectRepository } from "typeorm-typedi-extensions";
-import { User } from "../../entities/user";
+import { User } from "../../entities/user.orm.entity";
 import { UserEntity } from "./user";
 import { UserCreatedEvent } from './events';
 import { DomainEvents } from "../../infrastructure/events";

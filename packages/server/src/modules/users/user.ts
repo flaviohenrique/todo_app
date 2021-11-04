@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
-import { User } from "../../entities/user";
+import { User } from "../../entities/user.orm.entity";
 import { UserCreatedEvent } from "./events";
 import { IDomainEvent, IEventedEntity } from "../../infrastructure/events"
 

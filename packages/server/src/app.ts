@@ -1,5 +1,6 @@
-import { TodoEventHandlers } from './modules/todos/event.handlers';
 import "reflect-metadata";
+
+import { TodoEventHandlers } from './modules/todos/event.handlers';
 
 import express from "express";
 import { useContainer } from "typeorm";

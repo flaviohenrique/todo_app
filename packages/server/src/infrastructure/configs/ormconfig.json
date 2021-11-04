@@ -11,7 +11,7 @@
     "error"
   ],
   "entities": [
-    "src/entities/**/*.ts"
+    "src/entities/**/*orm.entity.ts"
   ],
   "migrations": [
     "src/infrastructure/database/migrations/**/*.ts"

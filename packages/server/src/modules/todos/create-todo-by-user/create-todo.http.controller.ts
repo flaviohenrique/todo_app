@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { Service } from "typedi";
 import { CreateTodoByUserService } from "./create-todo.service";
-import { User } from "../../../entities/user"
+import { User } from "../../../entities/user.orm.entity"
 
 @Service()
 export class CreateTodoByUserController {

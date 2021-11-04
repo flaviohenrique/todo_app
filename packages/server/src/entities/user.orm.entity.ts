@@ -1,5 +1,4 @@
-import { Entity, Column, OneToMany } from "typeorm";
-import { Todo } from "./todo";
+import { Entity, Column } from "typeorm";
 import { EntityBase } from "../infrastructure/database/entity.base";
 
 @Entity()
@@ -16,7 +15,4 @@ export class User extends EntityBase {
 
   @Column()
   password!: string;
-
-  // @OneToMany(() => Todo, (todo) => todo.user)
-  // todos?: Todo[];
 }

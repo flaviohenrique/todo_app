@@ -2,7 +2,7 @@ import { DontBelongsToUserError, TodoNotFoundError } from './../errors';
 import { Request, Response } from "express";
 import { Service } from "typedi";
 import { UpdateTodoByUserService } from "./update-todo.service";
-import { User } from "../../../entities/user"
+import { User } from "../../../entities/user.orm.entity"
 
 @Service()
 export class UpdateTodoByUserController {
