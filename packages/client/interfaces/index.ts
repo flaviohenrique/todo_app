@@ -1,5 +1,5 @@
 export interface ITodo {
-  id: string,
+  id: string;
   description: string;
   moreDescription?: string;
 }

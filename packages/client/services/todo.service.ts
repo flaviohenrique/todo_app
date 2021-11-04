@@ -1,9 +1,9 @@
-import { ITodo } from './../interfaces/index';
+import { ITodo } from "./../interfaces/index";
 
 export class TodoService {
   async getAllTodos(): Promise<ITodo[]> {
-    const res = await fetch(`${process.env.HOST}/todos`)
+    const res = await fetch(`${process.env.HOST}/todos`);
 
-    return await res.json()
+    return await res.json();
   }
 }

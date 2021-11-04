@@ -27,6 +27,6 @@ withConnection().then(
   (error) => console.log(error)
 );
 
-console.log("process.env.PORT", process.env.PORT)
+console.log("process.env.PORT", process.env.PORT);
 
 app.listen(process.env.PORT || 3000);
