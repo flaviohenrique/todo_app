@@ -2,29 +2,33 @@
 import { InferGetServerSidePropsType, GetServerSidePropsContext } from 'next'
 import { useState, MouseEvent } from 'react'
 import { TodoService } from '../services/todo.service'
+import { requiresAuthentication } from '../lib/auth'
+import { ITodo } from '../interfaces/index'
 
 const service = new TodoService()
 
-export const getServerSideProps = async (context: GetServerSidePropsContext) => {
-  const todos = await service.getAllTodos()
-  const selectedTodo = todos.at(0)
+export const getServerSideProps = requiresAuthentication(
+  async (_context: GetServerSidePropsContext) => {
+    const todos = await service.getAllTodos()
+    const selectedTodo = todos.at(0)
 
-  return {
-    props: {
-      todos,
-      selectedTodo
+    return {
+      props: {
+        todos,
+        selectedTodo
+      }
     }
   }
-}
+);
 
-const Home = ({ todos = [], selectedTodo }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  const [todoList] = useState(todos)
-  const [selectedTodoItem, setSelectedTodoItem] = useState(selectedTodo)
+const Home = ({ todos, selectedTodo }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+  const [todoList] = useState<ITodo[]>(todos)
+  const [selectedTodoItem, setSelectedTodoItem] = useState<ITodo | undefined>(selectedTodo)
 
   const selectTodo = (e: MouseEvent<HTMLAnchorElement>, todoId: string) => {
     e.preventDefault()
 
-    selectedTodo = todos.find((t) => t.id === todoId)
+    selectedTodo = todoList.find((t) => t.id === todoId)
 
     setSelectedTodoItem(selectedTodo)
   }
