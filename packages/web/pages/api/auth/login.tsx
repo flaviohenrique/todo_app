@@ -1,33 +1,61 @@
-import passport from 'passport'
+import passport, { use } from 'passport'
 import type { NextApiRequest, NextApiResponse } from "next";
 import nc from "next-connect";
 import { localStrategy } from "../../../lib/passport-local";
 import { setLoginSession } from '../../../lib/auth';
+import { ILoggedUser } from '../../../interfaces';
 
 //import { ILogin, ILoggedUser } from "../../../interfaces/index"
-
-passport.use(localStrategy)
 
 const handler = nc<NextApiRequest, NextApiResponse>()
 
 const authOptions = { session: false } as passport.AuthenticateOptions
 
+const authenticate = (req: NextApiRequest, res: NextApiResponse) =>
+  new Promise<ILoggedUser>((resolve, reject) => {
+    passport.authenticate("local", authOptions, (error, loggedData) => {
+      if (error) {
+        reject(error)
+      } else {
+        resolve(loggedData)
+      }
+    })(req, res)
+  })
+
+passport.use(localStrategy)
+
 handler
   .use(passport.initialize())
-  .post(async (_req, resp) => {
-    passport.authenticate('local', authOptions, async (error, token) => {
-      console.log('@@@@@@', token)
-      if (error) {
-        console.error(error)
-        resp.status(401).send(error.message)
-      } else {
-        const session = { ...token }
+  .post(async (req, res) => {
+    try {
+      const user = await authenticate(req, res);
+  
+      const session = { ...user }
 
-        await setLoginSession(resp, session)
+      console.log('@@@@ user', user)
 
-        resp.status(200).send({ done: true })
-      }
-    })
+      await setLoginSession(res, user)
+
+      res.status(200).send({ done: true })
+    } catch (e) {
+      const error = (e as Error)
+      console.error(error)
+      res.status(401).send({ message: error.message })
+    }
+
+    // const aa = await passport.authenticate('local', authOptions, async (error, token) => {
+    //   if (error) {
+    //     console.error("@@@@ error", error)
+    //     resp.status(401).send(error.message)
+    //   } else {
+    //     console.error("@@@@ success", token)
+    //     const session = { ...token }
+
+    //     await setLoginSession(resp, session)
+
+    //     resp.status(200).send({ done: true })
+    //   }
+    // })(req, resp)
   });
 
 export default handler

@@ -2,13 +2,13 @@ import Local from 'passport-local'
 import { ILoggedUser } from '../interfaces'
 //import { findUser, validatePassword } from './user'
 
-export const localStrategy = new Local.Strategy(function (
-  username,
-  password,
-  done
-) {
-
-  if (username === 'flavio.henrique85@gmail.com' && password === '123456') {
+export const localStrategy = new Local.Strategy({
+  usernameField: 'email',
+  passwordField: 'password'
+}, (email, password, done) => {
+  console.log('email', email);
+  console.log('password', password);
+  if (email === 'flavio.henrique85@gmail.com' && password === '123456') {
     const user = { id: "1" } as ILoggedUser
     done(null, user)
   } else {

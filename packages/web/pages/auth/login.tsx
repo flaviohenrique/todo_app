@@ -21,8 +21,8 @@ const Login = () => {
       <div>
         <label>
           Email:
-          <input type="email" defaultValue="flavio.henrique85@gmail.com" {...register("email", { required: true })} />
-          {formState.errors.email && <span>This field is required</span>}
+          <input type="username" defaultValue="flavio.henrique85@gmail.com" {...register("username", { required: true })} />
+          {formState.errors.username && <span>This field is required</span>}
         </label>
       </div>
       <div>
