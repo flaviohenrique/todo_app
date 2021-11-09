@@ -1,12 +1,12 @@
-import type { AppProps } from 'next/app'
-import Layout from './components/layout'
+import type { AppProps } from "next/app";
+import Layout from "./components/layout";
 
 function TodoApp({ Component, pageProps }: AppProps) {
   return (
-    <Layout>
+    <Layout {...pageProps}>
       <Component {...pageProps} />
     </Layout>
-  )
+  );
 }
 
-export default TodoApp
+export default TodoApp;
