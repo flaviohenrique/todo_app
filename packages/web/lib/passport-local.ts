@@ -1,29 +1,18 @@
 import Local from 'passport-local'
-import { ILoggedUser } from '../interfaces'
-//import { findUser, validatePassword } from './user'
+import { Api } from '../api'
+import { ResultError } from './http.client';
+
+const api = new Api()
 
 export const localStrategy = new Local.Strategy({
   usernameField: 'email',
   passwordField: 'password'
-}, (email, password, done) => {
-  console.log('email', email);
-  console.log('password', password);
-  if (email === 'flavio.henrique85@gmail.com' && password === '123456') {
-    const user = { id: "1" } as ILoggedUser
-    done(null, user)
-  } else {
-    done(new Error('Invalid username and password combination'))
-  }
+}, async (email, password, done) => {
+  const result = await api.doLogin({ email, password })
 
-  // findUser({ username })
-  //   .then((user) => {
-  //     if (user && validatePassword(user, password)) {
-  //       done(null, user)
-  //     } else {
-  //       done(new Error('Invalid username and password combination'))
-  //     }
-  //   })
-  //   .catch((error) => {
-  //     done(error)
-  //   })
+  if ((<ResultError>result).message !== undefined) {
+    done(new Error((<ResultError>result).message), null)
+  } else {
+    done(null, result)
+  }
 })

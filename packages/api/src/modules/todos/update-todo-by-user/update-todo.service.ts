@@ -1,3 +1,4 @@
+import { Service } from "typedi";
 import { TodoRepository } from "../todo.repository";
 import { TodoEntity, IUpdateTodo } from "../todo";
 import { Result } from "@badrap/result";

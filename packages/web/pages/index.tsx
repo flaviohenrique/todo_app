@@ -1,27 +1,31 @@
 
-import { InferGetServerSidePropsType, GetServerSidePropsContext } from 'next'
+import { GetServerSideProps, GetServerSidePropsContext, InferGetServerSidePropsType } from 'next'
 import { useState, MouseEvent } from 'react'
-import { TodoService } from '../services/todo.service'
-import { requiresAuthentication } from '../lib/auth'
-import { ITodo } from '../interfaces/index'
+import { Api } from '../api'
+import { requiresAuthentication } from '../lib/auth.session'
+import type { ITodo, AuthPageProps } from '../interfaces/index'
 
-const service = new TodoService()
+const api = new Api()
 
-export const getServerSideProps = requiresAuthentication(
-  async (_context: GetServerSidePropsContext) => {
-    const todos = await service.getAllTodos()
-    const selectedTodo = todos.at(0)
+type PageProps = {
+  todos: ITodo[],
+  selectedTodo?: ITodo,  
+} & AuthPageProps;
 
-    return {
-      props: {
-        todos,
-        selectedTodo
-      }
-    }
+
+const internalGetServerSideProps : GetServerSideProps<PageProps> = async (context) => {
+  const todos = await api.getAllTodos()
+  const selectedTodo = todos.at(0)
+
+  return {
+    props: { todos, selectedTodo } as PageProps
   }
-);
+}
 
-const Home = ({ todos, selectedTodo }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+
+export const getServerSideProps = requiresAuthentication<PageProps>(internalGetServerSideProps);
+
+const Home = ({ todos, selectedTodo }: InferGetServerSidePropsType<typeof internalGetServerSideProps>) => {
   const [todoList] = useState<ITodo[]>(todos)
   const [selectedTodoItem, setSelectedTodoItem] = useState<ITodo | undefined>(selectedTodo)
 

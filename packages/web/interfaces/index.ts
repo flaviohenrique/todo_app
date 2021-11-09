@@ -4,11 +4,20 @@ export interface ITodo {
   moreDescription?: string;
 }
 
-export interface ILogin {
-  username: string;
+export interface IUser {
+  id: string;
+  email: string;
+  name: string;
+}
+
+export interface ISession extends IUser {
+  createdAt: number;
+  maxAge: number;
+}
+
+export interface IUserCredentials {
+  email: string;
   password: string;
 }
 
-export interface ILoggedUser {
-  id: string
-}
+export type AuthPageProps = { user: IUser }

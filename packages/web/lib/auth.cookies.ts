@@ -1,6 +1,8 @@
-import type { NextApiRequest, NextApiResponse } from "next";
+import type { NextApiRequestCookies } from 'next/dist/server/api-utils';
+import type { NextApiResponse } from "next";
 
 import { serialize, parse } from 'cookie'
+import { IncomingMessage } from "http";
 
 const TOKEN_NAME = 'todo_app_token'
 
@@ -28,7 +30,7 @@ export function removeTokenCookie(res: NextApiResponse) {
   res.setHeader('Set-Cookie', cookie)
 }
 
-export function parseCookies(req: NextApiRequest) {
+export function parseCookies(req: IncomingMessage & { cookies: NextApiRequestCookies; }) {
   // For API Routes we don't need to parse the cookies.
   if (req.cookies) return req.cookies
 
@@ -37,7 +39,7 @@ export function parseCookies(req: NextApiRequest) {
   return parse(cookie || '')
 }
 
-export function getTokenCookie(req: NextApiRequest) {
+export function getTokenCookie(req: IncomingMessage & { cookies: NextApiRequestCookies; }) {
   const cookies = parseCookies(req)
   return cookies[TOKEN_NAME]
 }

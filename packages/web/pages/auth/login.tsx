@@ -1,19 +1,24 @@
 import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { ILoggedUser, ILogin } from '../../interfaces'
-import { postJson } from '../../lib/http.client'
+import { IUserCredentials } from '../../interfaces'
+import Router from 'next/router'
+import { ClientApi } from "../../api/client";
 
 const Login = () => {
   const {
     register, handleSubmit, formState
-  } = useForm<ILogin>();
+  } = useForm<IUserCredentials>();
 
-  const onSubmit: SubmitHandler<ILogin> = (data) => {
-    postJson<ILogin, ILoggedUser>('/api/auth/login', data).then((result) => {
-      console.log(result);
-    }).catch((err) => {
-      console.log(err);
-    });
+  const clientApi = new ClientApi()
+
+  const onSubmit: SubmitHandler<IUserCredentials> = async (data) => {
+    try {
+      const user = await clientApi.doLogin(data)
+
+      Router.push('/')
+    } catch (error) {
+      console.log("Error", error);
+    }
   }
 
   return (
@@ -21,8 +26,8 @@ const Login = () => {
       <div>
         <label>
           Email:
-          <input type="username" defaultValue="flavio.henrique85@gmail.com" {...register("username", { required: true })} />
-          {formState.errors.username && <span>This field is required</span>}
+          <input type="username" defaultValue="flavio.henrique85@gmail.com" {...register("email", { required: true })} />
+          {formState.errors.email && <span>This field is required</span>}
         </label>
       </div>
       <div>

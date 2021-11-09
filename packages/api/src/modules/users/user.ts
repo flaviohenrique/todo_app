@@ -9,6 +9,13 @@ export interface ICreateUser {
   password: string;
 }
 
+export interface IUserCredentials {
+  email: string;
+  password: string;
+}
+
+export type FindableUser = Promise<UserEntity | undefined>;
+
 export class UserEntity extends User implements IEventedEntity {
   public readonly domainEvents: IDomainEvent[] = [];
 

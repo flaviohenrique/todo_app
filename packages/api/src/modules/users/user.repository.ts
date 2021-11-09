@@ -2,7 +2,7 @@ import { Service } from "typedi";
 import { Repository } from "typeorm";
 import { InjectRepository } from "typeorm-typedi-extensions";
 import { User } from "../../entities/user.orm.entity";
-import { UserEntity } from "./user";
+import { IUserCredentials, UserEntity, FindableUser } from "./user";
 import { UserCreatedEvent } from "./events";
 import { DomainEvents } from "../../infrastructure/events";
 import { BaseRepository } from "../../infrastructure/repositories";
@@ -16,7 +16,7 @@ export class UserRepository extends BaseRepository {
     super();
   }
 
-  async findByEmail(email: string): Promise<UserEntity | undefined> {
+  async findByEmail(email: string): FindableUser {
     const user = await this.repository.findOne({ email });
 
     if (user) return new UserEntity(user);
@@ -24,7 +24,15 @@ export class UserRepository extends BaseRepository {
     return user;
   }
 
-  async findById(userId: string): Promise<UserEntity | undefined> {
+  async findByCredentials(credentials: IUserCredentials): FindableUser {
+    const user = await this.repository.findOne(credentials);
+
+    if (user) return new UserEntity(user);
+
+    return user;
+  }
+
+  async findById(userId: string): FindableUser {
     const user = await this.repository.findOne(userId);
 
     if (user) return new UserEntity(user);
