@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "web",
-  "version" : "0.0.1",
+  "version": "0.0.1",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -9,8 +9,12 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@chakra-ui/react": "^1.6.12",
+    "@emotion/react": "^11",
+    "@emotion/styled": "^11",
     "@hapi/iron": "^6.0.0",
     "cookie": "^0.4.1",
+    "framer-motion": "^4",
     "next": "12.0.2",
     "next-connect": "^0.11.0",
     "passport": "^0.5.0",

@@ -1,11 +1,33 @@
-import type { AppProps } from "next/app";
-import Layout from "./components/layout";
+import { ChakraProvider } from "@chakra-ui/react";
+import { NextPage } from "next";
 
-function TodoApp({ Component, pageProps }: AppProps) {
+import type { AppProps } from "next/app";
+import LoggedLayout from "../components/layouts/LoggedLayout";
+import GuestLayout from "../components/layouts/GuestLayout";
+
+type NextPageWithLayout = NextPage & {
+  layout?: string;
+};
+
+type AppPropsWithLayout = AppProps & {
+  Component: NextPageWithLayout;
+};
+
+const layouts = {
+  guest: GuestLayout,
+  logged: LoggedLayout,
+};
+
+function TodoApp({ Component, pageProps }: AppPropsWithLayout) {
+  const Layout =
+    Object.keys(layouts).find((l) => l == Component.layout) || layouts.logged;
+
   return (
-    <Layout {...pageProps}>
-      <Component {...pageProps} />
-    </Layout>
+    <ChakraProvider resetCSS>
+      <Layout {...pageProps}>
+        <Component {...pageProps} />
+      </Layout>
+    </ChakraProvider>
   );
 }
 

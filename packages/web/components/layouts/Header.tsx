@@ -3,7 +3,7 @@ const Header = () => {
     <header>
       <h1>Welcome to todo list</h1>
     </header>
-  )
-}
+  );
+};
 
 export default Header;

@@ -22,6 +22,7 @@
   "scripts": {
     "bootstrap": "lerna bootstrap --use-workspaces",
     "format": "yarn run prettier '**/*.ts' --write",
-    "lint": "eslint . --ext .ts --fix"
+    "lint": "eslint . --ext .ts --fix",
+    "web": "yarn workspace web"
   }
 }
