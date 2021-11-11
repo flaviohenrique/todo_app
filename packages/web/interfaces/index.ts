@@ -20,4 +20,4 @@ export interface IUserCredentials {
   password: string;
 }
 
-export type AuthPageProps = { user: IUser };
+export type AuthPageProps = { user?: IUser };

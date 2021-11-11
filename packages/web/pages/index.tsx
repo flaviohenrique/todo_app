@@ -1,9 +1,8 @@
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
-import { useState, MouseEvent, ReactElement } from "react";
+import { useState, MouseEvent } from "react";
 import { Api } from "../api";
 import { requiresAuthentication } from "../lib/auth.session";
 import type { ITodo, AuthPageProps } from "../interfaces";
-import LoggedLayout from "../components/layouts/LoggedLayout";
 
 const api = new Api();
 
@@ -71,10 +70,6 @@ const Home = ({
       </section>
     </>
   );
-};
-
-Home.getLayout = function getLayout(page: ReactElement) {
-  return <LoggedLayout>{page}</LoggedLayout>;
 };
 
 export default Home;

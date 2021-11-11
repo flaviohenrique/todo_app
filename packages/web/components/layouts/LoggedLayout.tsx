@@ -1,14 +1,9 @@
-import { IUser } from "../../interfaces";
 import Footer from "./Footer";
 import Header from "./Header";
 import NavBar from "./NavBar";
+import { LayoutComponentProps } from "./types";
 
-type props = {
-  children: React.ReactNode;
-  user: IUser;
-};
-
-export default function LoggedLayout({ children, user }: props) {
+export default function LoggedLayout({ children, user }: LayoutComponentProps) {
   return (
     <>
       {/* <Header /> */}

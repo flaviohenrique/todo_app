@@ -1,8 +1,6 @@
-type props = {
-  children: React.ReactNode;
-};
+import { LayoutComponentProps } from "./types";
 
-export default function GuestLayout({ children }: props) {
+export default function GuestLayout({ children }: LayoutComponentProps) {
   return (
     <>
       <main>{children}</main>

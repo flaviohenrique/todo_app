@@ -3,8 +3,7 @@ import { ClientApi } from "../../api/client";
 import { ResultError } from "../../lib/http.client";
 import { Flex, Heading } from "@chakra-ui/react";
 import Form, { onSubmitHandler } from "../../components/login/Form";
-import GuestLayout from "../../components/layouts/GuestLayout";
-import { ReactElement } from "react";
+import { Layouts } from "../../components/layouts";
 
 const Login = () => {
   const clientApi = new ClientApi();
@@ -32,6 +31,6 @@ const Login = () => {
   );
 };
 
-Login.layout = "guest";
+Login.layout = Layouts.Guest;
 
 export default Login;
