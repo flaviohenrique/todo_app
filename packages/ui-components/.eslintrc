@@ -1,6 +1,12 @@
 {
+  "plugins": [
+    "promise",
+    "import"
+  ],
   "extends": [
-    "standard-react"
+    "standard-react",
+    "plugin:promise/recommended",
+    "plugin:import/recommended"
   ],
   "env": {
     "node": true

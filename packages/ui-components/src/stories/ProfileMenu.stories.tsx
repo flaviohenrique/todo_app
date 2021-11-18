@@ -1,7 +1,7 @@
 import React, { VFC } from "react";
 import { ComponentMeta } from "@storybook/react";
 
-import ProfileMenu from "../components/layouts/ProfileMenu";
+import { ProfileMenu } from "../";
 
 export default {
   title: "Layouts/Profile Menu",

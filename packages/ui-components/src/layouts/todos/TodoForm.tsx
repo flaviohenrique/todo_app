@@ -1,8 +1,6 @@
-import React from "react";
+import React, { VFC } from "react";
 
 import { Box, FormControl, Input, Button } from "@chakra-ui/react";
-
-import { VFC } from "react";
 
 const Form: VFC<unknown> = () => {
   return (

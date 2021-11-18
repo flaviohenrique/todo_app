@@ -1,14 +1,12 @@
-import React from "react";
+import React, { VFC } from "react";
 import type { ITodo } from "shared";
 import { Box, Text } from "@chakra-ui/react";
-
-import { VFC } from "react";
 
 type TodoItemProps = {
   todo: ITodo;
   onSelectTodo: (
     e: React.MouseEvent<HTMLAnchorElement, globalThis.MouseEvent>,
-    todoId: string
+    todoId: string,
   ) => void;
 };
 

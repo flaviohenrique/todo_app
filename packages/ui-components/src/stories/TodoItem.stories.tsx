@@ -1,7 +1,7 @@
 import React, { VFC } from "react";
 import { ComponentMeta } from "@storybook/react";
 
-import { TodoItem } from "../components/layouts/todos";
+import { TodoItem } from "..";
 import { ITodo } from "shared";
 
 export default {
@@ -18,7 +18,7 @@ const todo: ITodo = {
 export const Primary: VFC<unknown> = () => (
   <TodoItem
     todo={todo}
-    onSelectTodo={(e, todoId) => {
+    onSelectTodo={(_e, todoId) => {
       console.log("teste", todoId);
     }}
   />

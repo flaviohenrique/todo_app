@@ -12,7 +12,7 @@
     "build": "lerna run build",
     "start": "lerna run start --stream",
     "dev": "lerna run dev --stream",
-    "format": "yarn run prettier '**/*.ts' --write",
+    "format": "prettier ./**/*.{ts,tsx} --write",
     "lint": "eslint . --fix"
   },
   "devDependencies": {

@@ -14,7 +14,7 @@ type PageProps = {
 } & AuthPageProps;
 
 const internalGetServerSideProps: GetServerSideProps<PageProps> = async (
-  _context
+  _context,
 ) => {
   const todos = await api.getAllTodos();
   const selectedTodo = todos[0];
@@ -25,7 +25,7 @@ const internalGetServerSideProps: GetServerSideProps<PageProps> = async (
 };
 
 export const getServerSideProps = requiresAuthentication<PageProps>(
-  internalGetServerSideProps
+  internalGetServerSideProps,
 );
 
 const Home = ({
@@ -34,12 +34,12 @@ const Home = ({
 }: InferGetServerSidePropsType<typeof internalGetServerSideProps>) => {
   const [todoList] = useState<ITodo[]>(todos);
   const [selectedTodoItem, setSelectedTodoItem] = useState<ITodo | undefined>(
-    selectedTodo
+    selectedTodo,
   );
 
   function onSelectTodoHandler(
     e: MouseEvent<HTMLAnchorElement>,
-    todoId: string
+    todoId: string,
   ): void {
     e.preventDefault();
 

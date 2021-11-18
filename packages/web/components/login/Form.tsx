@@ -11,7 +11,7 @@ import { IUserCredentials } from "shared";
 
 export type onSubmitHandler = (
   data: IUserCredentials,
-  form: UseFormReturn<IUserCredentials, object>
+  form: UseFormReturn<IUserCredentials, object>,
 ) => void;
 
 interface IProps {
