@@ -1,9 +1,8 @@
 import React from "react";
 
-import type { AuthPageProps } from 'shared'
+import type { AuthPageProps } from "shared";
 import { Box, Flex } from "@chakra-ui/react";
 import ProfileMenu from "./ProfileMenu";
-
 
 const NavBar = (props: AuthPageProps) => {
   return (

@@ -6,11 +6,11 @@ export type ResultError = {
 export type PostResult<R> = R | ResultError;
 
 export async function getJson<T>(url: RequestInfo): Promise<T> {
-  const result = await fetch(url)
+  const result = await fetch(url);
 
-  const data = await result.json() as Promise<T>
+  const data = (await result.json()) as Promise<T>;
 
-  console.log(`@@@@@@ data`, data)
+  console.log(`@@@@@@ data`, data);
 
   return data;
 }
@@ -28,8 +28,7 @@ export async function postJson<T, R>(
   });
 
   if (result.ok) {
-    
-    return await result.json() as Promise<R>;
+    return (await result.json()) as Promise<R>;
   }
 
   const message = await result.json();

@@ -28,7 +28,7 @@ export async function getUserSession(
 ): Promise<ISession | undefined> {
   const token = getTokenCookie(req);
 
-  console.log(`cookie token`, token)
+  console.log(`cookie token`, token);
 
   if (!token) throw new Error("Unauthenticated");
 
@@ -64,8 +64,8 @@ export const requiresAuthentication = <A extends AuthPageProps>(
 
       return result;
     } catch (error) {
-      console.log(`Error`, error)
-      
+      console.log(`Error`, error);
+
       return {
         redirect: {
           permanent: false,

@@ -61,7 +61,6 @@ const Home = ({
       */
 
   return (
-  
     <Flex direction="column" my={2}>
       {todoList.map((todo) => (
         <TodoItem

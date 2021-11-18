@@ -1,4 +1,4 @@
-declare module 'shared' {
+declare module "shared" {
   export interface ITodo {
     id: string;
     description: string;
@@ -23,4 +23,3 @@ declare module 'shared' {
 
   export type AuthPageProps = { user?: IUser };
 }
-
