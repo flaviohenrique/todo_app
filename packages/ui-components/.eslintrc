@@ -1,12 +1,10 @@
 {
   "plugins": [
-    "promise",
-    "import"
+    "promise"
   ],
   "extends": [
     "standard-react",
-    "plugin:promise/recommended",
-    "plugin:import/recommended"
+    "plugin:promise/recommended"
   ],
   "env": {
     "node": true
@@ -22,5 +20,9 @@
     "react": {
       "version": "17"
     }
+  },
+  "rules": {
+    "react/prop-types": 0,
+    "react/no-unused-prop-types": 0
   }
 }

@@ -24,7 +24,7 @@ withConnection().then(
 
     routes.register(app);
   },
-  (error) => console.log(error)
+  (error) => console.log(error),
 );
 
 console.log("process.env.PORT", process.env.PORT);

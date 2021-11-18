@@ -17,5 +17,5 @@ export const localStrategy = new Local.Strategy(
     } else {
       done(null, result);
     }
-  }
+  },
 );

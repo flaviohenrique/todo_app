@@ -17,7 +17,7 @@ export async function getJson<T>(url: RequestInfo): Promise<T> {
 
 export async function postJson<T, R>(
   url: RequestInfo,
-  data: T
+  data: T,
 ): Promise<PostResult<R>> {
   const result = await fetch(url, {
     method: "POST",

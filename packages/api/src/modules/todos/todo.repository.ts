@@ -10,7 +10,7 @@ export class TodoRepository {
 
   async listAll(): Promise<TodoEntity[]> {
     return ((await this.repository.find()) || []).map<TodoEntity>(
-      (t) => new TodoEntity(t)
+      (t) => new TodoEntity(t),
     );
   }
 

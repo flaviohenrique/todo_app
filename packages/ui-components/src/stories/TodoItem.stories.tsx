@@ -1,12 +1,14 @@
 import React, { VFC } from "react";
 import { ComponentMeta } from "@storybook/react";
 
-import { TodoItem } from "..";
+import { TodoItem } from "../";
 import { ITodo } from "shared";
+import { action } from "@storybook/addon-actions";
 
 export default {
   title: "Layouts/TodoItem",
   component: TodoItem,
+  argTypes: { onSelectTodo: { action: "selectTodo" } },
 } as ComponentMeta<typeof TodoItem>;
 
 const todo: ITodo = {
@@ -16,10 +18,5 @@ const todo: ITodo = {
 };
 
 export const Primary: VFC<unknown> = () => (
-  <TodoItem
-    todo={todo}
-    onSelectTodo={(_e, todoId) => {
-      console.log("teste", todoId);
-    }}
-  />
+  <TodoItem todo={todo} onSelectTodo={action("onSelectTodo")} />
 );
