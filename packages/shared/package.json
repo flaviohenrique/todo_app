@@ -1,0 +1,13 @@
+{
+  "name": "@types/shared",
+  "version": "1.0.0",
+  "description": "App Core types",
+  "private": true,
+  "author": "",
+  "license": "MIT",
+  "types": "index.d.ts",
+  "typescript": {
+    "definition": "index.d.ts"
+  },
+  "main": "shared"
+}

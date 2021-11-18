@@ -1,25 +1,28 @@
 {
   "name": "todo_app",
-  "packageManager": "yarn@3.0.2",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
   "private": true,
   "workspaces": [
     "packages/*"
   ],
+  "scripts": {
+    "bootstrap": "lerna bootstrap",
+    "build": "lerna run build",
+    "start": "lerna run start --stream",
+    "dev": "lerna run dev --stream",
+    "format": "prettier ./**/*.{ts,tsx} --write",
+    "lint": "eslint . --fix"
+  },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^5.0.0",
-    "@typescript-eslint/parser": "^5.0.0",
-    "@yarnpkg/sdks": "^2.4.2-rc.8",
-    "eslint": "^8.0.0",
+    "@typescript-eslint/eslint-plugin": "^5.4.0",
+    "@typescript-eslint/parser": "^5.4.0",
+    "eslint": "^8.2.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
-    "prettier": "^2.4.1"
-  },
-  "scripts": {
-    "server": "yarn workspace server",
-    "format": "yarn run prettier '**/*.ts' --write",
-    "lint": "eslint . --ext .ts --fix"
-  },
-  "dependencies": {
-    "typescript": "^4.4.4"
+    "lerna": "^4.0.0",
+    "prettier": "^2.4.1",
+    "typescript": "4.4.4"
   }
 }
