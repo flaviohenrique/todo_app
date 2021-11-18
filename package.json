@@ -1,6 +1,20 @@
 {
   "name": "todo_app",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
   "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "bootstrap": "lerna bootstrap",
+    "build": "lerna run build",
+    "start": "lerna run start --stream",
+    "dev": "lerna run dev --stream",
+    "format": "yarn run prettier '**/*.ts' --write",
+    "lint": "eslint . --ext .ts --fix"    
+  },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.3.1",
     "@typescript-eslint/parser": "^5.0.0",
@@ -10,19 +24,5 @@
     "lerna": "^4.0.0",
     "prettier": "^2.4.1",
     "typescript": "^4.4.4"
-  },
-  "version": "1.0.0",
-  "main": "index.js",
-  "repository": "git@github.com:flaviohenrique/todo_app.git",
-  "author": "Flavio Andrade <fandrade@imaginarycloud.com>",
-  "license": "MIT",
-  "workspaces": [
-    "packages/*"
-  ],
-  "scripts": {
-    "bootstrap": "lerna bootstrap --use-workspaces",
-    "format": "yarn run prettier '**/*.ts' --write",
-    "lint": "eslint . --ext .ts --fix",
-    "storybook": "lerna run storybook --scope web"
   }
 }

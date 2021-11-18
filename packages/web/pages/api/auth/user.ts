@@ -6,6 +6,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await getUserSession(req);
 
   try {
+    console.log("@@@@@@@", session?.name);
+
     res.status(200).json(session);
   } catch (error) {
     console.error(error);

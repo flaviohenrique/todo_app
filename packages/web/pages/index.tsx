@@ -2,7 +2,7 @@ import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import React, { useState, MouseEvent } from "react";
 import { Api } from "../api";
 import { requiresAuthentication } from "../lib/auth.session";
-import type { ITodo, AuthPageProps } from "../interfaces";
+import type { ITodo, AuthPageProps } from "shared";
 import { Flex } from "@chakra-ui/layout";
 import { TodoItem, TodoForm } from "../components/layouts/todos";
 
@@ -17,7 +17,7 @@ const internalGetServerSideProps: GetServerSideProps<PageProps> = async (
   _context
 ) => {
   const todos = await api.getAllTodos();
-  const selectedTodo = todos.at(0);
+  const selectedTodo = todos[0];
 
   return {
     props: { todos, selectedTodo } as PageProps,

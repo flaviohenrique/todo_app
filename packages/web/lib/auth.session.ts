@@ -9,7 +9,7 @@ import {
 
 import Iron from "@hapi/iron";
 import { MAX_AGE, setTokenCookie, getTokenCookie } from "./auth.cookies";
-import { IUser, ISession, AuthPageProps } from "../interfaces";
+import { IUser, ISession, AuthPageProps } from "shared";
 
 const SECRET_COOKIE_PASSWORD = process.env.SECRET_COOKIE_PASSWORD || "";
 
@@ -27,6 +27,8 @@ export async function getUserSession(
   req: IncomingMessage & { cookies: NextApiRequestCookies }
 ): Promise<ISession | undefined> {
   const token = getTokenCookie(req);
+
+  console.log(`cookie token`, token)
 
   if (!token) throw new Error("Unauthenticated");
 
@@ -62,6 +64,8 @@ export const requiresAuthentication = <A extends AuthPageProps>(
 
       return result;
     } catch (error) {
+      console.log(`Error`, error)
+      
       return {
         redirect: {
           permanent: false,

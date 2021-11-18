@@ -5,8 +5,14 @@ export type ResultError = {
 
 export type PostResult<R> = R | ResultError;
 
-export function getJson<T>(url: RequestInfo): Promise<T> {
-  return fetch(url).then((r) => r.json()) as Promise<T>;
+export async function getJson<T>(url: RequestInfo): Promise<T> {
+  const result = await fetch(url)
+
+  const data = await result.json() as Promise<T>
+
+  console.log(`@@@@@@ data`, data)
+
+  return data;
 }
 
 export async function postJson<T, R>(
@@ -22,7 +28,8 @@ export async function postJson<T, R>(
   });
 
   if (result.ok) {
-    return result.json() as Promise<R>;
+    
+    return await result.json() as Promise<R>;
   }
 
   const message = await result.json();

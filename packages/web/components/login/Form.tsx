@@ -7,7 +7,7 @@ import {
   Input,
   Button,
 } from "@chakra-ui/react";
-import { IUserCredentials } from "../../interfaces";
+import { IUserCredentials } from "shared";
 
 export type onSubmitHandler = (
   data: IUserCredentials,

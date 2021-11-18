@@ -1,6 +1,7 @@
-import Footer from "./Footer";
-import NavBar from "./NavBar";
+// import Footer from "ui-components";
+import { NavBar, Footer } from "ui-components";
 import { LayoutComponentProps } from "./types";
+
 
 export default function LoggedLayout({ children, user }: LayoutComponentProps) {
   return (

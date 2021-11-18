@@ -2,7 +2,7 @@ import React, { VFC } from "react";
 import { ComponentMeta } from "@storybook/react";
 
 import { TodoItem } from "../components/layouts/todos";
-import { ITodo } from "../interfaces";
+import { ITodo } from "shared";
 
 export default {
   title: "Layouts/TodoItem",

@@ -1,4 +1,4 @@
-import { IUser } from "../../interfaces";
+import { IUser } from "shared";
 
 export type LayoutComponentProps = {
   children: React.ReactNode;

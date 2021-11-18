@@ -1,11 +1,8 @@
 import { UpdateTodoByUserController } from "./../modules/todos/update-todo-by-user/update-todo.http.controller";
 import { CreateTodoByUserController } from "./../modules/todos/create-todo-by-user/create-todo.http.controller";
 import { ListTodoController } from "./../modules/todos/list/list.http.controller";
-import { CreateUserController } from "./../modules/users/create-user/create-user.http.controller";
-import express, { NextFunction, Request, Response } from "express";
+import express, { Request, Response } from "express";
 import { Service } from "typedi";
-import { UserController } from "../controllers/UserController";
-import { UserRouter } from "./user.router";
 
 @Service()
 export class TodoRouter {

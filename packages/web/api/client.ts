@@ -1,5 +1,5 @@
 import { postJson, PostResult } from "../lib/http.client";
-import { IUser, IUserCredentials } from "../interfaces/index";
+import { IUser, IUserCredentials } from "shared";
 
 export class ClientApi {
   doLogin(login: IUserCredentials): Promise<PostResult<IUser>> {

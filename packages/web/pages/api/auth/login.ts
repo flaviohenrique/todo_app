@@ -3,7 +3,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import nc from "next-connect";
 import { localStrategy } from "../../../lib/passport-local";
 import { setUserSession } from "../../../lib/auth.session";
-import { IUser } from "../../../interfaces";
+import { IUser } from "shared";
 
 const handler = nc<NextApiRequest, NextApiResponse>();
 
