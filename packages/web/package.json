@@ -6,10 +6,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
   "dependencies": {
-    "@chakra-ui/react": "^1.6.12",
+    "@chakra-ui/react": "^1.7.0",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
     "@hapi/iron": "^6.0.0",

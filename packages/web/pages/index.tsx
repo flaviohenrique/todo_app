@@ -1,8 +1,10 @@
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
-import { useState, MouseEvent } from "react";
+import React, { useState, MouseEvent } from "react";
 import { Api } from "../api";
 import { requiresAuthentication } from "../lib/auth.session";
 import type { ITodo, AuthPageProps } from "../interfaces";
+import { Flex } from "@chakra-ui/layout";
+import { TodoItem, TodoForm } from "../components/layouts/todos";
 
 const api = new Api();
 
@@ -35,40 +37,41 @@ const Home = ({
     selectedTodo
   );
 
-  const selectTodo = (e: MouseEvent<HTMLAnchorElement>, todoId: string) => {
+  function onSelectTodoHandler(
+    e: MouseEvent<HTMLAnchorElement>,
+    todoId: string
+  ): void {
     e.preventDefault();
 
     selectedTodo = todoList.find((t) => t.id === todoId);
 
     setSelectedTodoItem(selectedTodo);
-  };
+  }
+
+  /*
+      // <section>
+      //   {selectedTodoItem ? (
+      //     <>
+      //       <h1>{selectedTodoItem.description}</h1>
+      //       <p>{selectedTodoItem.moreDescription}</p>
+      //     </>
+      //   ) : (
+      //     <p>No itens found</p>
+      //   )}
+      */
 
   return (
-    <>
-      <section>
-        <h2>My todo list</h2>
-        <ul>
-          {todoList.map((todo) => (
-            <li key={todo.id}>
-              <a href="#" onClick={(e) => selectTodo(e, todo.id)}>
-                {" "}
-                {todo.description}{" "}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </section>
-      <section>
-        {selectedTodoItem ? (
-          <>
-            <h1>{selectedTodoItem.description}</h1>
-            <p>{selectedTodoItem.moreDescription}</p>
-          </>
-        ) : (
-          <p>No itens found</p>
-        )}
-      </section>
-    </>
+  
+    <Flex direction="column" my={2}>
+      {todoList.map((todo) => (
+        <TodoItem
+          key={todo.id}
+          todo={todo}
+          onSelectTodo={onSelectTodoHandler}
+        />
+      ))}
+      <TodoForm />
+    </Flex>
   );
 };
 
