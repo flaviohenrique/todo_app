@@ -1,15 +1,21 @@
 import type { IncomingMessage } from "http";
-import type { NextApiResponse } from "next";
+import type { NextApiResponse, PreviewData } from "next";
 import type { NextApiRequestCookies } from "next/dist/server/api-utils";
-import {
-  GetServerSideProps,
-  GetServerSidePropsContext,
-  GetServerSidePropsResult,
-} from "next";
+import { GetServerSidePropsContext, GetServerSidePropsResult } from "next";
 
 import Iron from "@hapi/iron";
 import { MAX_AGE, setTokenCookie, getTokenCookie } from "./auth.cookies";
 import { IUser, ISession, AuthPageProps } from "shared";
+import { ParsedUrlQuery } from "querystring";
+
+export type GetServerSidePropsWithSession<
+  P extends { [key: string]: unknown } = { [key: string]: unknown },
+  Q extends ParsedUrlQuery = ParsedUrlQuery,
+  D extends PreviewData = PreviewData
+> = (
+  context: GetServerSidePropsContext<Q, D>,
+  user?: IUser
+) => Promise<GetServerSidePropsResult<P>>;
 
 const SECRET_COOKIE_PASSWORD = process.env.SECRET_COOKIE_PASSWORD || "";
 
@@ -46,7 +52,7 @@ export async function getUserSession(
 }
 
 export const requiresAuthentication = <A extends AuthPageProps>(
-  gssp: GetServerSideProps<A>
+  gssp: GetServerSidePropsWithSession<A>
 ) => {
   return async (
     context: GetServerSidePropsContext
@@ -54,11 +60,11 @@ export const requiresAuthentication = <A extends AuthPageProps>(
     const { req } = context;
 
     try {
-      const user = await getUserSession(req);
+      const user = (await getUserSession(req)) as IUser;
 
-      const result = (await gssp(context)) as { props: A };
+      const result = (await gssp(context, user)) as { props: A };
 
-      result.props = { ...result.props, user: <IUser>user };
+      result.props = { ...result.props, user: user };
 
       return result;
     } catch (error) {

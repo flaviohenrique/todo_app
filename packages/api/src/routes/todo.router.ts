@@ -1,6 +1,6 @@
 import { UpdateTodoByUserController } from "./../modules/todos/update-todo-by-user/update-todo.http.controller";
 import { CreateTodoByUserController } from "./../modules/todos/create-todo-by-user/create-todo.http.controller";
-import { ListTodoController } from "./../modules/todos/list/list.http.controller";
+import { ListTodoController } from "../modules/todos/list-by-user/list.http.controller";
 import express, { Request, Response } from "express";
 import { Service } from "typedi";
 
@@ -13,7 +13,7 @@ export class TodoRouter {
   ) {}
 
   register(app: express.Application) {
-    app.get("/todos/", (req: Request, res: Response) => {
+    app.get("/todos", (req: Request, res: Response) => {
       this.listTodosController.list(req, res);
     });
 

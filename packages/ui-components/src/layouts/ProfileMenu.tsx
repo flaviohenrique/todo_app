@@ -5,7 +5,7 @@ type ProfileMenuProps = {
   name?: string;
 };
 
-const ProfileMenu: VFC<ProfileMenuProps> = ({ name }) => {
+export const ProfileMenu: VFC<ProfileMenuProps> = ({ name }) => {
   return (
     <Menu>
       <MenuButton variant={"solid"}>Olá {name}</MenuButton>
@@ -17,5 +17,3 @@ const ProfileMenu: VFC<ProfileMenuProps> = ({ name }) => {
     </Menu>
   );
 };
-
-export default ProfileMenu;

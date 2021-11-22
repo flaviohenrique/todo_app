@@ -10,14 +10,20 @@ export class TodoRepository {
 
   async listAll(): Promise<TodoEntity[]> {
     return ((await this.repository.find()) || []).map<TodoEntity>(
-      (t) => new TodoEntity(t),
+      TodoEntity.build
+    );
+  }
+
+  async listByUserId(userId: string): Promise<TodoEntity[]> {
+    return ((await this.repository.find({ userId })) || []).map<TodoEntity>(
+      TodoEntity.build
     );
   }
 
   async findById(todoId: string): Promise<TodoEntity | undefined> {
     const todo = await this.repository.findOne(todoId);
 
-    if (todo) return new TodoEntity(todo);
+    if (todo) return TodoEntity.build(todo);
 
     return todo;
   }

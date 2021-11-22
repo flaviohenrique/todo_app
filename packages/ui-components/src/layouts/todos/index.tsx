@@ -1,4 +1,5 @@
 import TodoItem from "./TodoItem";
-import TodoForm from "./TodoForm";
+import TodoForm, { onCreateTodoHandler } from "./TodoForm";
 
 export { TodoItem, TodoForm };
+export { onCreateTodoHandler };

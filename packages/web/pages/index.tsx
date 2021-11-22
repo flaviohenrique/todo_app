@@ -1,10 +1,11 @@
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import React, { useState, MouseEvent } from "react";
-import { Api } from "../api";
+import { Api, ResultError } from "../api";
 import { requiresAuthentication } from "../lib/auth.session";
-import type { ITodo, AuthPageProps } from "shared";
+import type { ITodo, AuthPageProps, IUser, ISession } from "shared";
 import { Flex } from "@chakra-ui/layout";
-import { TodoItem, TodoForm } from "../components/layouts/todos";
+import { TodoItem, TodoForm } from "ui-components";
+import { UseFormReturn } from "react-hook-form";
 
 const api = new Api();
 
@@ -14,9 +15,10 @@ type PageProps = {
 } & AuthPageProps;
 
 const internalGetServerSideProps: GetServerSideProps<PageProps> = async (
-  _context
+  context,
+  user?: IUser
 ) => {
-  const todos = await api.getAllTodos();
+  const todos = await api.getTodosByUserId(user?.id || "");
   const selectedTodo = todos[0];
 
   return {
@@ -32,7 +34,7 @@ const Home = ({
   todos,
   selectedTodo,
 }: InferGetServerSidePropsType<typeof internalGetServerSideProps>) => {
-  const [todoList] = useState<ITodo[]>(todos);
+  const [todoList, setTodoList] = useState<ITodo[]>(todos);
   const [_selectedTodoItem, setSelectedTodoItem] = useState<ITodo | undefined>(
     selectedTodo
   );
@@ -41,24 +43,26 @@ const Home = ({
     e: MouseEvent<HTMLAnchorElement>,
     todoId: string
   ): void {
-    e.preventDefault();
-
     selectedTodo = todoList.find((t) => t.id === todoId);
 
     setSelectedTodoItem(selectedTodo);
   }
 
-  /*
-      // <section>
-      //   {selectedTodoItem ? (
-      //     <>
-      //       <h1>{selectedTodoItem.description}</h1>
-      //       <p>{selectedTodoItem.moreDescription}</p>
-      //     </>
-      //   ) : (
-      //     <p>No itens found</p>
-      //   )}
-      */
+  async function onCreateTodoHandler(
+    data: Pick<ITodo, "description">,
+    form: UseFormReturn<Pick<ITodo, "description">, object>
+  ) {
+    const result = await api.createTodo(data);
+
+    if ((result as ResultError).message !== undefined) {
+      form.setError("description", {
+        type: "manual",
+        message: "Invalid description",
+      });
+    } else {
+      setTodoList([...todos, result as ITodo]);
+    }
+  }
 
   return (
     <Flex direction="column" my={2}>
@@ -69,7 +73,7 @@ const Home = ({
           onSelectTodo={onSelectTodoHandler}
         />
       ))}
-      <TodoForm />
+      <TodoForm onSubmit={onCreateTodoHandler} />
     </Flex>
   );
 };

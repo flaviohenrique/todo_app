@@ -32,7 +32,7 @@ handler.use(passport.initialize()).post(async (req, res) => {
   } catch (e) {
     const error = e as Error;
     console.error(error);
-    res.status(401).send({ message: error.message });
+    res.status(401).json({ message: error.message });
   }
 });
 

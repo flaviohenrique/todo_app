@@ -1,13 +1,6 @@
 import {
-  ChakraProvider,
-  extendTheme,
-  Flex,
-  IconButton,
-  useColorMode,
-  useColorModeValue,
-  theme,
+  ChakraProvider
 } from "@chakra-ui/react"
-import { StoryContext } from "@storybook/react"
 import * as React from "react"
 
 /**
@@ -35,7 +28,7 @@ export const parameters = {
   },
 }
 
-const withChakra = (StoryFn: Function, context: StoryContext) => {
+const withChakra = (StoryFn, context) => {
   const { direction } = context.globals
   const dir = direction.toLowerCase()
 
@@ -44,7 +37,7 @@ const withChakra = (StoryFn: Function, context: StoryContext) => {
   }, [dir])
 
   return (
-    <ChakraProvider>
+    <ChakraProvider resetCSS >
       <div dir={dir} id="story-wrapper" style={{ minHeight: "100vh" }}>
         <StoryFn />
       </div>
