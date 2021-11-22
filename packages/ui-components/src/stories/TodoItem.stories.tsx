@@ -7,8 +7,7 @@ import { action } from "@storybook/addon-actions";
 
 export default {
   title: "Layouts/TodoItem",
-  component: TodoItem,
-  argTypes: { onSelectTodo: { action: "selectTodo" } },
+  component: TodoItem
 } as ComponentMeta<typeof TodoItem>;
 
 const todo: ITodo = {

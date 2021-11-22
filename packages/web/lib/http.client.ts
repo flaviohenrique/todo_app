@@ -10,14 +10,12 @@ export async function getJson<T>(url: RequestInfo): Promise<T> {
 
   const data = (await result.json()) as Promise<T>;
 
-  console.log(`@@@@@@ data`, data);
-
   return data;
 }
 
 export async function postJson<T, R>(
   url: RequestInfo,
-  data: T,
+  data: T
 ): Promise<PostResult<R>> {
   const result = await fetch(url, {
     method: "POST",

@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import { Service } from "typedi";
 import { CreateTodoByUserService } from "./create-todo.service";
-import { User } from "../../../entities/user.orm.entity";
 
 @Service()
 export class CreateTodoByUserController {
@@ -10,12 +9,7 @@ export class CreateTodoByUserController {
   ) {}
 
   async create(req: Request, res: Response) {
-    const user = <User>res.locals.user;
-
-    const result = await this.createTodoByUserService.execute({
-      userId: user.id,
-      ...req.body,
-    });
+    const result = await this.createTodoByUserService.execute(req.body);
 
     result.unwrap(
       (todo) => {
