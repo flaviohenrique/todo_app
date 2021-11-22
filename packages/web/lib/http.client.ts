@@ -10,8 +10,6 @@ export async function getJson<T>(url: RequestInfo): Promise<T> {
 
   const data = (await result.json()) as Promise<T>;
 
-  console.log(`@@@@@@ data`, data);
-
   return data;
 }
 

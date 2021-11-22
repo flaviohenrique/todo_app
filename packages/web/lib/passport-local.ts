@@ -1,6 +1,5 @@
 import Local from "passport-local";
-import { Api } from "../api";
-import { ResultError } from "./http.client";
+import { Api, ResultError } from "../api";
 
 const api = new Api();
 

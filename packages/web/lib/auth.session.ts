@@ -28,8 +28,6 @@ export async function getUserSession(
 ): Promise<ISession | undefined> {
   const token = getTokenCookie(req);
 
-  console.log(`cookie token`, token);
-
   if (!token) throw new Error("Unauthenticated");
 
   const session = (await Iron.unseal(

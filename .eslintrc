@@ -12,10 +12,11 @@
     "prettier"
   ],
   "rules": {
+    "comma-dangle": [1, "always-multiline"],
     "no-console": 1, // Means warning
     "prettier/prettier": 2, // Means error
     "@typescript-eslint/no-unused-vars": [
-      "warn",
+      1,
       {
         "argsIgnorePattern": "^_",
         "varsIgnorePattern": "^_"
