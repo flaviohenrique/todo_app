@@ -1,23 +1,27 @@
 import Router from "next/router";
 import { Api, ResultError } from "../../api";
 import { Flex, Heading, Avatar, Box, VStack, Link } from "@chakra-ui/react";
-import Form, { onSubmitHandler } from "../../components/login/Form";
+import Form, { onSubmitHandler } from "../../components/signup/Form";
 import { Layouts } from "../../components/layouts";
 import NextLink from "next/link";
+import { useFlashMessage } from "ui-components";
+import { IUser } from "shared";
 
-const Login = () => {
+const SignUp = () => {
   const api = new Api();
+  const flashMessage = useFlashMessage();
 
   const onSubmitHandler: onSubmitHandler = async (data, form) => {
-    const result = await api.doLogin(data);
+    const result = await api.createUser(data);
 
     if ((result as ResultError).message !== undefined) {
       form.setError("email", {
         type: "manual",
-        message: "Invalid email or password",
+        message: (result as ResultError).message,
       });
     } else {
-      Router.push("/");
+      flashMessage("success", `User ${(result as IUser).name}. Please log in`);
+      Router.push("/auth/login");
     }
   };
 
@@ -25,12 +29,12 @@ const Login = () => {
     <Flex height="100vh" alignItems="center" justifyContent="center">
       <VStack spacing="5">
         <Avatar bg="teal.500" />
-        <Heading>Welcome</Heading>
+        <Heading>Do your registration</Heading>
         <Form onSubmit={onSubmitHandler}></Form>
         <Box>
-          New to us? &nbsp;
-          <NextLink href="/auth/signup" passHref>
-            <Link color="teal.500">Sign Up</Link>
+          Already have an account? &nbsp;
+          <NextLink href="/auth/login" passHref>
+            <Link color="teal.500">Log In</Link>
           </NextLink>
         </Box>
       </VStack>
@@ -38,6 +42,6 @@ const Login = () => {
   );
 };
 
-Login.layout = Layouts.Guest;
+SignUp.layout = Layouts.Guest;
 
-export default Login;
+export default SignUp;

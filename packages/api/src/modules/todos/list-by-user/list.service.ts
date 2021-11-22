@@ -8,8 +8,8 @@ import { ExceptionBase } from "../../../shared/errors";
 export class ListTodoService {
   constructor(private readonly repository: TodoRepository) {}
 
-  async execute(): Promise<Result<TodoEntity[], ExceptionBase>> {
-    const todos = await this.repository.listAll();
+  async execute(userId: string): Promise<Result<TodoEntity[], ExceptionBase>> {
+    const todos = await this.repository.listByUserId(userId);
 
     return Result.ok(todos);
   }

@@ -7,7 +7,8 @@ export class ListTodoController {
   constructor(private readonly listTodoService: ListTodoService) {}
 
   async list(req: Request, res: Response) {
-    const result = await this.listTodoService.execute();
+    const userId = req.query.userId as string;
+    const result = await this.listTodoService.execute(userId);
 
     result.unwrap(
       (todos) => {

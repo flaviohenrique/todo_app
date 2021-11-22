@@ -1,35 +1,42 @@
 import { SubmitHandler, useForm, UseFormReturn } from "react-hook-form";
-import React, { FunctionComponent } from "react";
+import React, { VFC } from "react";
 import { Box, Button } from "@chakra-ui/react";
 
 import { FormInput } from "ui-components";
 
-import { IUserCredentials } from "shared";
+import { ICreateUser } from "shared";
 
 export type onSubmitHandler = (
-  data: IUserCredentials,
-  form: UseFormReturn<IUserCredentials, object>
+  data: ICreateUser,
+  form: UseFormReturn<ICreateUser, object>
 ) => void;
 
 interface IProps {
   onSubmit: onSubmitHandler;
 }
 
-const LoginForm: FunctionComponent<IProps> = ({ onSubmit }) => {
-  const form = useForm<IUserCredentials>();
+const SignupForm: VFC<IProps> = ({ onSubmit }) => {
+  const form = useForm<ICreateUser>();
   const {
     handleSubmit,
     register,
     formState: { errors, isSubmitting },
   } = form;
 
-  const onSubmitHandler: SubmitHandler<IUserCredentials> = async (data) => {
+  const onSubmitHandler: SubmitHandler<ICreateUser> = async (data) => {
     onSubmit(data, form);
   };
 
   return (
     <Box bg="gray.50" p={6} rounded={6} width="100%">
       <form onSubmit={handleSubmit(onSubmitHandler)}>
+        <FormInput
+          id="name"
+          label="Name"
+          placeholder="John Apple Seed"
+          {...register("name", { required: true })}
+          error={errors.name}
+        />
         <FormInput
           id="email"
           label="Email"
@@ -48,11 +55,11 @@ const LoginForm: FunctionComponent<IProps> = ({ onSubmit }) => {
           error={errors.password}
         />
         <Button type="submit" colorScheme="teal" isLoading={isSubmitting}>
-          Log In
+          Create
         </Button>
       </form>
     </Box>
   );
 };
 
-export default LoginForm;
+export default SignupForm;
