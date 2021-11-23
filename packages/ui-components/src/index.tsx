@@ -6,6 +6,7 @@ export {
     Header,
     NavBar,
     ProfileMenu,
+    Loading,
 } from "./layouts";
 
 export {

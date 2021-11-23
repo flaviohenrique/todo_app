@@ -1,5 +1,5 @@
 import Router from "next/router";
-import { Api, ResultError } from "../../api";
+import { ClientApi, ResultError } from "../../api";
 import { Flex, Heading, Avatar, Box, VStack, Link } from "@chakra-ui/react";
 import Form, { onSubmitHandler } from "../../components/signup/Form";
 import { Layouts } from "../../components/layouts";
@@ -8,7 +8,7 @@ import { useFlashMessage } from "ui-components";
 import { IUser } from "shared";
 
 const SignUp = () => {
-  const api = new Api();
+  const api = new ClientApi();
   const flashMessage = useFlashMessage();
 
   const onSubmitHandler: onSubmitHandler = async (data, form) => {

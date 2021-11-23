@@ -1,8 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { Api, ResultError } from "../../../api";
+import { ExternalApi, ResultError } from "../../../api";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-  const api = new Api();
+  const api = new ExternalApi();
 
   const result = await api.createUser({
     ...req.body,

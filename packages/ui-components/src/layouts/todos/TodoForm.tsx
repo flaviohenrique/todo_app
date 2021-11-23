@@ -1,26 +1,27 @@
 import React, { VFC } from "react";
 import { SubmitHandler, useForm, UseFormReturn } from "react-hook-form";
 import { Box, FormControl, Input, Button, FormErrorMessage } from "@chakra-ui/react";
-import { ITodo } from "shared";
+import { ICreateTodo } from "shared";
 
 type TodoFormProps = {
   onSubmit: onCreateTodoHandler;
+  isLoading: boolean;
 };
 
 export type onCreateTodoHandler = (
-  data: Pick<ITodo, "description">,
-  form: UseFormReturn<Pick<ITodo, "description">, object>
+  data: ICreateTodo,
+  form: UseFormReturn<ICreateTodo, object>
 ) => void;
 
-const TodoForm: VFC<TodoFormProps> = ({ onSubmit }) => {
-  const form = useForm<Pick<ITodo, "description">>();
+const TodoForm: VFC<TodoFormProps> = ({ onSubmit, isLoading = false }) => {
+  const form = useForm<ICreateTodo>();
   const {
     handleSubmit,
     register,
     formState: { errors, isSubmitting },
   } = form;
 
-  const onSubmitHandler: SubmitHandler<Pick<ITodo, "description">> = async (data) => {
+  const onSubmitHandler: SubmitHandler<ICreateTodo> = async (data) => {
     onSubmit(data, form);
   };
 
@@ -33,7 +34,7 @@ const TodoForm: VFC<TodoFormProps> = ({ onSubmit }) => {
             {errors.description && errors.description.message}
           </FormErrorMessage>                    
         </FormControl>
-        <Button colorScheme="teal" type="submit" isLoading={isSubmitting} >Create</Button>        
+        <Button colorScheme="teal" type="submit" isLoading={isLoading || isSubmitting} >Create</Button>        
       </form>
     </Box>
   );

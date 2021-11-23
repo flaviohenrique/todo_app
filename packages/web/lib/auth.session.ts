@@ -52,7 +52,7 @@ export async function getUserSession(
 }
 
 export const requiresAuthentication = <A extends AuthPageProps>(
-  gssp: GetServerSidePropsWithSession<A>
+  gssp?: GetServerSidePropsWithSession<A>
 ) => {
   return async (
     context: GetServerSidePropsContext
@@ -61,6 +61,10 @@ export const requiresAuthentication = <A extends AuthPageProps>(
 
     try {
       const user = (await getUserSession(req)) as IUser;
+
+      if(gssp === undefined) {
+        return { props: { user: user } } as { props: A };
+      }
 
       const result = (await gssp(context, user)) as { props: A };
 

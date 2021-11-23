@@ -3,20 +3,18 @@ export type ResultError = {
   message: string;
 };
 
-export type PostResult<R> = R | ResultError;
+export type Result<R> = R | ResultError;
 
-export async function getJson<T>(url: RequestInfo): Promise<T> {
+export async function getJson<R>(url: RequestInfo): Promise<Result<R>> {
   const result = await fetch(url);
 
-  const data = (await result.json()) as Promise<T>;
-
-  return data;
+  return buildResult<R>(result);
 }
 
 export async function postJson<T, R>(
   url: RequestInfo,
   data: T
-): Promise<PostResult<R>> {
+): Promise<Result<R>> {
   const result = await fetch(url, {
     method: "POST",
     headers: {
@@ -24,11 +22,14 @@ export async function postJson<T, R>(
     },
     body: JSON.stringify(data),
   });
+  return buildResult<R>(result);
+}
 
+const buildResult = async <R>(result: Response): Promise<Result<R>> => {
   if (result.ok) {
     return (await result.json()) as Promise<R>;
   }
 
   const message = await result.json();
   return <ResultError>{ status: result.status, ...message };
-}
+};
