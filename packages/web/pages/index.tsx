@@ -1,24 +1,27 @@
-import { InferGetServerSidePropsType } from "next";
 import React, { useEffect, MouseEvent } from "react";
-import { requiresAuthentication } from "../lib/auth.session";
-import type { AuthPageProps, ICreateTodo } from "shared";
+import { withAuthenticatedUser } from "../lib/auth.session";
+import type { AuthPageProps, ICreateTodo, ITodo, IUser } from "shared";
 import { Flex } from "@chakra-ui/layout";
 import { TodoItem, TodoForm, Loading, useFlashMessage } from "ui-components";
 import { UseFormReturn } from "react-hook-form";
 import { useAppSelector, useAppDispatch } from "../app/hooks";
-import { createTodo, fetchTodos, selectAllTodos } from "../domain/todoSlice";
+import { addTodoList, createTodo, fetchTodos, selectAllTodos } from "../domain/todoSlice";
 import { unwrapResult } from "@reduxjs/toolkit";
+import { ExternalApi } from "../api";
 
-// type PageProps = {
-//   todos: ITodo[];
-//   selectedTodo?: ITodo;
-// } & AuthPageProps;
 
-export const getServerSideProps = requiresAuthentication<AuthPageProps>();
+export const getServerSideProps = withAuthenticatedUser<AuthPageProps>(async (_context, store, user) => {
+  const api = new ExternalApi();
 
-const Home = ({
-  user: _user,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+  const result = await api.getTodosByUserId(user.id)as ITodo[];
+  await store.dispatch(addTodoList(result));
+
+  return { props: {
+
+  }};
+});
+
+const Home = () => {
   const dispatch = useAppDispatch();
   const todoList = useAppSelector(selectAllTodos);
   const flashMessage = useFlashMessage();
@@ -32,13 +35,7 @@ const Home = ({
   );
 
   useEffect(() => {
-    if (loadingListStatus === "idle") {
-      dispatch(fetchTodos());
-    }
-  }, [loadingListStatus, dispatch]);
-
-  useEffect(() => {
-    if (loadingError !== undefined) {
+    if (loadingError !== null) {
       flashMessage("error", loadingError);
     }
   }, [flashMessage, loadingError]);
