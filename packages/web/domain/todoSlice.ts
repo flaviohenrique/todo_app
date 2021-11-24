@@ -1,5 +1,5 @@
 import type { RootState } from "./../app/store";
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction, CaseReducer } from "@reduxjs/toolkit";
 import type { ITodo, ICreateTodo, LoadingState } from "shared";
 import { ClientApi, ResultError } from "../api";
 
@@ -12,8 +12,8 @@ export interface TodoState {
 
 const initialState: TodoState = {
   entities: [],
-  listing: { status: "idle" },
-  creating: { status: "idle" },
+  listing: { status: "idle", error: null },
+  creating: { status: "idle", error: null },
 };
 
 const client = new ClientApi();
@@ -45,40 +45,26 @@ export const createTodo = createAsyncThunk<
   return result as ITodo;
 });
 
-// async function onCreateTodoHandler(
-//   data: Pick<ITodo, "description">,
-//   form: UseFormReturn<Pick<ITodo, "description">, object>
-// ) {
-//   // const result = await api.createTodo(data);
-//   // if ((result as ResultError).message !== undefined) {
-//   //   form.setError("description", {
-//   //     type: "manual",
-//   //     message: "Invalid description",
-//   //   });
-//   // } else {
-//   //   setTodoList([...todos, result as ITodo]);
-//   // }
-// }
+const internalAddTodoList : CaseReducer<TodoState, PayloadAction<ITodo[]>> = (state, action) => {
+      state.entities = action.payload
+      state.listing.status = "succeeded";
+}
 
 // Then, handle actions in your reducers:
 const todosSlice = createSlice({
   name: "todos",
   initialState: initialState,
   reducers: {
-    // standard reducer logic, with auto-generated action types per reducer
+    addTodoList: internalAddTodoList
   },
   extraReducers: (builder) => {
-    // Add reducers for additional action types here, and handle loading state as needed
     builder.addCase(fetchTodos.pending, (state, _action) => {
       state.listing.status = "loading";
     });
-    builder.addCase(fetchTodos.fulfilled, (state, action) => {
-      state.listing.status = "succeeded";
-      state.entities = action.payload;
-    });
+    builder.addCase(fetchTodos.fulfilled, internalAddTodoList);
     builder.addCase(fetchTodos.rejected, (state, action) => {
       state.listing.status = "failed";
-      state.listing.error = action.payload?.message;
+      state.listing.error = action.payload?.message || null;
     });
 
     builder.addCase(createTodo.pending, (state, _action) => {
@@ -90,7 +76,7 @@ const todosSlice = createSlice({
     });
     builder.addCase(createTodo.rejected, (state, action) => {
       state.creating.status = "failed";
-      state.creating.error = action.payload?.message;
+      state.creating.error = action.payload?.message || null;
     });
   },
 });
@@ -98,5 +84,7 @@ const todosSlice = createSlice({
 export const selectAllTodos = (state: RootState) => state.todos.entities;
 export const selectedTodo = (state: RootState, todoId: string) =>
   state.todos.entities.find((t) => t.id === todoId);
+
+export const { addTodoList } = todosSlice.actions;
 
 export default todosSlice;
