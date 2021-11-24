@@ -1,8 +1,11 @@
 declare module "shared" {
-  export interface ITodo {
-    id: string;
+  export interface ICreateTodo {
     description: string;
     moreDescription?: string;
+  }
+
+  export interface ITodo extends ICreateTodo {
+    id: string;
   }
 
   export interface IUser {
@@ -29,3 +32,8 @@ declare module "shared" {
 
   export type AuthPageProps = { user?: IUser };
 }
+
+export type LoadingState = {
+  status: "idle" | "loading" | "failed" | "succeeded";
+  error?: string;
+};

@@ -1,7 +1,7 @@
 import Local from "passport-local";
-import { Api, ResultError } from "../api";
+import { ExternalApi, ResultError } from "../api";
 
-const api = new Api();
+const api = new ExternalApi();
 
 export const localStrategy = new Local.Strategy(
   {

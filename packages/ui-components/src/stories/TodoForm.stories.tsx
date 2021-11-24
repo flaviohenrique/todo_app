@@ -10,5 +10,5 @@ export default {
 } as ComponentMeta<typeof TodoForm>;
 
 export const Form: VFC<unknown> = () => (
-  <TodoForm onSubmit={action("onCreateTodo")}/>
+  <TodoForm isLoading={false} onSubmit={action("onCreateTodo")} />
 );

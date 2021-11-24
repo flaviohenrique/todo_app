@@ -1,12 +1,12 @@
 import Router from "next/router";
-import { Api, ResultError } from "../../api";
+import { ClientApi, ResultError } from "../../api";
 import { Flex, Heading, Avatar, Box, VStack, Link } from "@chakra-ui/react";
 import Form, { onSubmitHandler } from "../../components/login/Form";
 import { Layouts } from "../../components/layouts";
 import NextLink from "next/link";
 
 const Login = () => {
-  const api = new Api();
+  const api = new ClientApi();
 
   const onSubmitHandler: onSubmitHandler = async (data, form) => {
     const result = await api.doLogin(data);
