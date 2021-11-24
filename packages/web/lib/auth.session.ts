@@ -62,7 +62,7 @@ export const requiresAuthentication = <A extends AuthPageProps>(
     try {
       const user = (await getUserSession(req)) as IUser;
 
-      if(gssp === undefined) {
+      if (gssp === undefined) {
         return { props: { user: user } } as { props: A };
       }
 

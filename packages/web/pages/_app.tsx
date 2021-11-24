@@ -9,7 +9,7 @@ function TodoApp({ Component, pageProps }: AppPropsWithLayout) {
   const Layout = getLayout(Component.layout);
 
   return (
-    <Provider store={store} >
+    <Provider store={store}>
       <ChakraProvider resetCSS>
         <Layout {...pageProps}>
           <Component {...pageProps} />

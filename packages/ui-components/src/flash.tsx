@@ -1,12 +1,9 @@
-import {
-  useToast,
-  AlertStatus,
-} from "@chakra-ui/react";
+import { useToast, AlertStatus } from "@chakra-ui/react";
 
-export type FlashMessageStatus = AlertStatus
+export type FlashMessageStatus = AlertStatus;
 
 export const useFlashMessage = () => {
-  const toast = useToast()
+  const toast = useToast();
 
   return (status: FlashMessageStatus, message: string) => {
     return toast({
@@ -16,4 +13,4 @@ export const useFlashMessage = () => {
       isClosable: true,
     });
   };
-}
+};

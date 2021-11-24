@@ -7,7 +7,7 @@ import { action } from "@storybook/addon-actions";
 
 export default {
   title: "Layouts/TodoItem",
-  component: TodoItem
+  component: TodoItem,
 } as ComponentMeta<typeof TodoItem>;
 
 const todo: ITodo = {
