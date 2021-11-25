@@ -1,21 +1,13 @@
 import type { IncomingMessage } from "http";
-import type { NextApiResponse, PreviewData } from "next";
+import type { NextApiResponse } from "next";
 import type { NextApiRequestCookies } from "next/dist/server/api-utils";
-import { GetServerSidePropsContext, GetServerSidePropsResult } from "next";
+import { GetServerSidePropsContext, GetServerSideProps, GetServerSidePropsResult } from "next";
+import { AppStore, wrapper } from "../app/store";
+import { logIn } from "../domain/authSlice";
 
 import Iron from "@hapi/iron";
 import { MAX_AGE, setTokenCookie, getTokenCookie } from "./auth.cookies";
-import { IUser, ISession, AuthPageProps } from "shared";
-import { ParsedUrlQuery } from "querystring";
-
-export type GetServerSidePropsWithSession<
-  P extends { [key: string]: unknown } = { [key: string]: unknown },
-  Q extends ParsedUrlQuery = ParsedUrlQuery,
-  D extends PreviewData = PreviewData
-> = (
-  context: GetServerSidePropsContext<Q, D>,
-  user?: IUser
-) => Promise<GetServerSidePropsResult<P>>;
+import { IUser, ISession } from "shared";
 
 const SECRET_COOKIE_PASSWORD = process.env.SECRET_COOKIE_PASSWORD || "";
 
@@ -51,26 +43,24 @@ export async function getUserSession(
   return session;
 }
 
-export const requiresAuthentication = <A extends AuthPageProps>(
-  gssp?: GetServerSidePropsWithSession<A>
-) => {
-  return async (
-    context: GetServerSidePropsContext
-  ): Promise<GetServerSidePropsResult<A>> => {
+type withAuthenticatedUserCallback<P extends {}> = (
+  context: GetServerSidePropsContext,
+  store: AppStore,
+  user: IUser
+) => Promise<GetServerSidePropsResult<P>>;
+
+export function withAuthenticatedUser<P>(gssp: withAuthenticatedUserCallback<P>) : GetServerSideProps{
+  return wrapper.getServerSideProps(store => async (context: GetServerSidePropsContext) => {
     const { req } = context;
+    const { dispatch } = store;
 
     try {
       const user = (await getUserSession(req)) as IUser;
 
-      if (gssp === undefined) {
-        return { props: { user: user } } as { props: A };
-      }
+      dispatch(logIn(user));
 
-      const result = (await gssp(context, user)) as { props: A };
+      return gssp(context, store, user);
 
-      result.props = { ...result.props, user: user };
-
-      return result;
     } catch (error) {
       console.log(`Error`, error);
 
@@ -81,5 +71,5 @@ export const requiresAuthentication = <A extends AuthPageProps>(
         },
       };
     }
-  };
-};
+  });
+}

@@ -35,5 +35,5 @@ declare module "shared" {
 
 export type LoadingState = {
   status: "idle" | "loading" | "failed" | "succeeded";
-  error?: string;
+  error: string | null;
 };
