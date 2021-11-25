@@ -17,7 +17,7 @@ export class CreateUserService {
 
     const user = UserEntity.create(createUser);
 
-    const created = await this.repository.save(user);
+    const created = await this.repository.create(user);
 
     return Result.ok(created);
   }

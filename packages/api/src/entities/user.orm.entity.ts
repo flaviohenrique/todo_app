@@ -1,5 +1,6 @@
-import { Entity, Column } from "typeorm";
+import { Entity, Column, JoinColumn, OneToOne } from "typeorm";
 import { EntityBase } from "../infrastructure/database/entity.base";
+import { File } from "../entities/file.orm.entity";
 
 @Entity()
 export class User extends EntityBase {
@@ -15,4 +16,10 @@ export class User extends EntityBase {
 
   @Column()
   password!: string;
+
+  @JoinColumn({ name: "avatarId" })
+  @OneToOne(() => File, {
+    nullable: true,
+  })
+  public avatar?: File;
 }

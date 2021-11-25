@@ -2,6 +2,7 @@ import { Service } from "typedi";
 import { Repository } from "typeorm";
 import { InjectRepository } from "typeorm-typedi-extensions";
 import { User } from "../../entities/user.orm.entity";
+import { File } from "../../entities/file.orm.entity";
 import { IUserCredentials, UserEntity, FindableUser } from "./user";
 import { UserCreatedEvent } from "./events";
 import { DomainEvents } from "../../infrastructure/events";
@@ -11,6 +12,7 @@ import { BaseRepository } from "../../infrastructure/repositories";
 export class UserRepository extends BaseRepository {
   constructor(
     @InjectRepository(User) private repository: Repository<User>,
+    @InjectRepository(File) private fileRepository: Repository<File>,
     protected domainEventsController: DomainEvents
   ) {
     super();
@@ -19,7 +21,7 @@ export class UserRepository extends BaseRepository {
   async findByEmail(email: string): FindableUser {
     const user = await this.repository.findOne({ email });
 
-    if (user) return new UserEntity(user);
+    if (user) return UserEntity.build(user);
 
     return user;
   }
@@ -27,7 +29,7 @@ export class UserRepository extends BaseRepository {
   async findByCredentials(credentials: IUserCredentials): FindableUser {
     const user = await this.repository.findOne(credentials);
 
-    if (user) return new UserEntity(user);
+    if (user) return UserEntity.build(user);
 
     return user;
   }
@@ -35,20 +37,29 @@ export class UserRepository extends BaseRepository {
   async findById(userId: string): FindableUser {
     const user = await this.repository.findOne(userId);
 
-    if (user) return new UserEntity(user);
+    if (user) return UserEntity.build(user);
 
     return user;
   }
 
   async exists(email: string): Promise<boolean> {
-    const found = await this.findByEmail(email);
-    return found ? true : false;
+    return (await this.findByEmail(email)) ? true : false;
   }
 
-  async save(user: UserEntity): Promise<UserEntity> {
+  async create(user: UserEntity): Promise<UserEntity> {
     await this.repository.save(user);
 
     this.dispatchEvents(user, UserCreatedEvent.eventName);
+
+    return user;
+  }
+
+  async update(user: UserEntity): Promise<UserEntity> {
+    if(user.avatar) {
+      await this.fileRepository.save(user.avatar)
+    }
+
+    await this.repository.save(user);
 
     return user;
   }
