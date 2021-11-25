@@ -14,7 +14,8 @@
     "dev": "lerna run dev --parallel",
     "format": "prettier ./**/*.{ts,tsx} --write",
     "lint": "eslint . --fix",
-    "storybook": "lerna run storybook --scope ui-components"
+    "storybook": "lerna run storybook --scope ui-components",
+    "api": "yarn workspace api run"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.4.0",
