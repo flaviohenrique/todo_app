@@ -13,7 +13,7 @@ export class AddAvatarController {
     return multer({ storage: multer.memoryStorage()}).single('avatar');
   }
 
-  async addAvatar({ file, params }: Request, res: Response) {
+  async addAvatar({ file, params, headers }: Request, res: Response) {
     const addAvatarProps = <IAddAvatar>{
       name: file?.originalname,
       data: file?.buffer,
@@ -25,7 +25,7 @@ export class AddAvatarController {
 
     result.unwrap(
       (user) => {
-        res.status(200).json(user);
+        res.status(200).json(user.getAvatar());
       },
       (error) => {
         if (error instanceof UserNotFoundError) {

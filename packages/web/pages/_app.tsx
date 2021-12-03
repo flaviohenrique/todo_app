@@ -7,8 +7,6 @@ import { wrapper } from "../app/store";
 function TodoApp({ Component, pageProps }: AppPropsWithLayout) {
   const Layout = getLayout(Component.layout);
 
-  console.log('-----------------___APP', {pageProps});
-
   return (
     <ChakraProvider resetCSS>
       <Layout {...pageProps}>

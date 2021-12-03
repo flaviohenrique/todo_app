@@ -23,7 +23,7 @@ export async function setUserSession(res: NextApiResponse, user: IUser) {
 
 export async function getUserSession(
   req: IncomingMessage & { cookies: NextApiRequestCookies }
-): Promise<ISession | undefined> {
+): Promise<ISession> {
   const token = getTokenCookie(req);
 
   if (!token) throw new Error("Unauthenticated");
@@ -43,11 +43,11 @@ export async function getUserSession(
   return session;
 }
 
-type withAuthenticatedUserCallback<P extends {}> = (
+type withAuthenticatedUserCallback<P extends {}> = ((
   context: GetServerSidePropsContext,
   store: AppStore,
   user: IUser
-) => Promise<GetServerSidePropsResult<P>>;
+) => Promise<GetServerSidePropsResult<P>>);
 
 export function withAuthenticatedUser<P>(gssp: withAuthenticatedUserCallback<P>) : GetServerSideProps{
   return wrapper.getServerSideProps(store => async (context: GetServerSidePropsContext) => {

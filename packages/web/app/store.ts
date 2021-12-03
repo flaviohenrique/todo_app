@@ -5,10 +5,12 @@ import { combineReducers } from 'redux';
 
 import todosSlice from "../domain/todoSlice";
 import authSlice from "../domain/authSlice";
+import usersSlice from "../domain/userSlice";
 
 const combinedReducer = combineReducers({
     [todosSlice.name]: todosSlice.reducer,
     [authSlice.name]: authSlice.reducer,
+    [usersSlice.name]: usersSlice.reducer,
 })
 
 export const makeStore = () =>  configureStore({

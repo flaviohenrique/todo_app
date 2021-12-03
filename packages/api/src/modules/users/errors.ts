@@ -10,6 +10,17 @@ export class UserNotFoundError extends ExceptionBase {
   }
 }
 
+export class AvatarNotFoundError extends ExceptionBase {
+  static readonly message = "Avatar not found";
+
+  public readonly code = "AVATAR.NOT_FOUND";
+
+  constructor(metadata?: unknown) {
+    super(AvatarNotFoundError.message, metadata);
+  }
+}
+
+
 export class UserAlreadyExistsError extends ExceptionBase {
   static readonly message = "User already exists";
 

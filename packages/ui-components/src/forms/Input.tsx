@@ -10,7 +10,7 @@ import type { InputProps } from "@chakra-ui/react";
 
 import type { FieldError } from "react-hook-form";
 
-type FormInputProps = InputProps & { label: string; error: FieldError };
+type FormInputProps = InputProps & { label: string; error?: FieldError };
 
 export const FormInput = React.forwardRef<HTMLInputElement, FormInputProps>(
   ({ id, label, error, ...props }, ref) => {

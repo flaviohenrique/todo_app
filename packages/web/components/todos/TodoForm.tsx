@@ -10,11 +10,11 @@ import {
 import { ICreateTodo } from "shared";
 
 type TodoFormProps = {
-  onSubmit: onCreateTodoHandler;
+  onSubmit: CreateTodoEventHandler;
   isLoading: boolean;
 };
 
-export type onCreateTodoHandler = (
+export type CreateTodoEventHandler = (
   data: ICreateTodo,
   form: UseFormReturn<ICreateTodo, object>
 ) => void;

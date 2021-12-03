@@ -1,3 +1,4 @@
+import { IAddedAvatar } from './../../shared/index.d';
 import {
   ICreateTodo,
   ICreateUser,
@@ -5,7 +6,7 @@ import {
   IUser,
   IUserCredentials,
 } from "shared";
-import { getJson, postJson, Result } from "../lib/http.client";
+import { getJson, putFile, postJson, Result } from "../lib/http.client";
 
 export class ClientApi {
   readonly basePath: string;
@@ -35,4 +36,8 @@ export class ClientApi {
       createUser
     );
   }
+
+  AddAvatar(file: File): Promise<Result<IAddedAvatar>>{
+    return putFile<IAddedAvatar>(`${this.basePath}/users/avatar-image`, file);
+	};
 }

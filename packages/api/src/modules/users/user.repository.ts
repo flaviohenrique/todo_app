@@ -42,6 +42,14 @@ export class UserRepository extends BaseRepository {
     return user;
   }
 
+  async findByIdWithAvatar(userId: string): FindableUser {
+    const user = await this.repository.findOne(userId, { relations: ["avatar"] });
+
+    if (user) return UserEntity.build(user);
+
+    return user;
+  }
+
   async exists(email: string): Promise<boolean> {
     return (await this.findByEmail(email)) ? true : false;
   }
