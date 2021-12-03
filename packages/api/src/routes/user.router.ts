@@ -1,5 +1,8 @@
-import { GetAvatarFileController } from './../modules/users/get-avatar-file/get-avatar-file.http.controller';
-import { AddAvatarController } from './../modules/users/add-avatar/add-avatar.http.controller';
+import { GetAvatarFileController } from "./../modules/users/get-avatar-file/get-avatar-file.http.controller";
+import {
+  AddAvatarController,
+  uploadConfig,
+} from "./../modules/users/add-avatar/add-avatar.http.controller";
 import { CreateUserController } from "../modules/users/create-user/create-user.http.controller";
 import express from "express";
 import { Service } from "typedi";
@@ -11,10 +14,10 @@ export class UserRouter {
     private readonly createUserController: CreateUserController,
     private readonly loginController: LoginController,
     private readonly addAvatarController: AddAvatarController,
-    private readonly getAvatarFileController: GetAvatarFileController,
+    private readonly getAvatarFileController: GetAvatarFileController
   ) {}
 
-  register(app: express.Application) {
+  register(app: express.Application): void {
     app.post("/users", (req, res) => {
       this.createUserController.create(req, res);
     });
@@ -23,12 +26,12 @@ export class UserRouter {
       this.loginController.login(req, res);
     });
 
-    app.put('/users/:userId/avatar', this.addAvatarController.uploadConfig(), (req, res) => {
-      this.addAvatarController.addAvatar(req, res)
-    })
+    app.put("/users/:userId/avatar", uploadConfig, (req, res) => {
+      this.addAvatarController.addAvatar(req, res);
+    });
 
-    app.get('/users/:userId/avatar', (req, res) => {
-      this.getAvatarFileController.getAvatarFile(req, res)
-    })    
+    app.get("/users/:userId/avatar", (req, res) => {
+      this.getAvatarFileController.getAvatarFile(req, res);
+    });
   }
 }

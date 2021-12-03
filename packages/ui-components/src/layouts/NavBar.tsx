@@ -2,8 +2,9 @@ import React, { PropsWithChildren, VFC } from "react";
 
 import { Box, Flex } from "@chakra-ui/react";
 
-
-export const NavBar: VFC<PropsWithChildren<{}>> = ({ children }) => {
+export const NavBar: VFC<PropsWithChildren<Record<string, unknown>>> = ({
+  children,
+}) => {
   return (
     <Box borderWidth={1} bg={"gray.100"} px={4}>
       <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
@@ -12,4 +13,4 @@ export const NavBar: VFC<PropsWithChildren<{}>> = ({ children }) => {
       </Flex>
     </Box>
   );
-}
+};

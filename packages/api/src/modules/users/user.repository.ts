@@ -43,7 +43,9 @@ export class UserRepository extends BaseRepository {
   }
 
   async findByIdWithAvatar(userId: string): FindableUser {
-    const user = await this.repository.findOne(userId, { relations: ["avatar"] });
+    const user = await this.repository.findOne(userId, {
+      relations: ["avatar"],
+    });
 
     if (user) return UserEntity.build(user);
 
@@ -63,8 +65,8 @@ export class UserRepository extends BaseRepository {
   }
 
   async update(user: UserEntity): Promise<UserEntity> {
-    if(user.avatar) {
-      await this.fileRepository.save(user.avatar)
+    if (user.avatar) {
+      await this.fileRepository.save(user.avatar);
     }
 
     await this.repository.save(user);

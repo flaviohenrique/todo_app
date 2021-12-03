@@ -1,4 +1,4 @@
-import { IAddedAvatar } from './../../shared/index.d';
+import { IAddedAvatar } from "./../../shared/index.d";
 import {
   ICreateTodo,
   ICreateUser,
@@ -37,7 +37,7 @@ export class ClientApi {
     );
   }
 
-  AddAvatar(file: File): Promise<Result<IAddedAvatar>>{
+  AddAvatar(file: File): Promise<Result<IAddedAvatar>> {
     return putFile<IAddedAvatar>(`${this.basePath}/users/avatar-image`, file);
-	};
+  }
 }

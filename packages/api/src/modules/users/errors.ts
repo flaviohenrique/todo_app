@@ -20,7 +20,6 @@ export class AvatarNotFoundError extends ExceptionBase {
   }
 }
 
-
 export class UserAlreadyExistsError extends ExceptionBase {
   static readonly message = "User already exists";
 

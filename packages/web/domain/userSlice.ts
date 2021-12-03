@@ -15,8 +15,12 @@ const initialState: ProfileState = {
 
 const client = new ClientApi();
 
-export const addAvatarImage = createAsyncThunk<IAddedAvatar, File,{ rejectValue: ResultError }>("users/addAvatar", async (args, {rejectWithValue}) => {
-  const result = await client.AddAvatar(args)
+export const addAvatarImage = createAsyncThunk<
+  IAddedAvatar,
+  File,
+  { rejectValue: ResultError }
+>("users/addAvatar", async (args, { rejectWithValue }) => {
+  const result = await client.AddAvatar(args);
 
   if ((result as ResultError).message !== undefined) {
     return rejectWithValue(result as ResultError);
@@ -28,14 +32,13 @@ export const addAvatarImage = createAsyncThunk<IAddedAvatar, File,{ rejectValue:
 const usersSlice = createSlice({
   name: "users",
   initialState: initialState,
-  reducers: {
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder.addCase(addAvatarImage.pending, (state, _action) => {
       state.avatarAdding.status = "loading";
     });
     builder.addCase(addAvatarImage.fulfilled, (state, action) => {
-      state.imgUrl = `/api/users/avatar-image?refresh=${action.payload.id}`
+      state.imgUrl = `/api/users/avatar-image?refresh=${action.payload.id}`;
       state.avatarAdding.status = "succeeded";
     });
     builder.addCase(addAvatarImage.rejected, (state, action) => {

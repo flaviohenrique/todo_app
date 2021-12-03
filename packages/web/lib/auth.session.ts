@@ -1,7 +1,11 @@
 import type { IncomingMessage } from "http";
 import type { NextApiResponse } from "next";
 import type { NextApiRequestCookies } from "next/dist/server/api-utils";
-import { GetServerSidePropsContext, GetServerSideProps, GetServerSidePropsResult } from "next";
+import {
+  GetServerSidePropsContext,
+  GetServerSideProps,
+  GetServerSidePropsResult,
+} from "next";
 import { AppStore, wrapper } from "../app/store";
 import { logIn } from "../domain/authSlice";
 
@@ -43,33 +47,36 @@ export async function getUserSession(
   return session;
 }
 
-type withAuthenticatedUserCallback<P extends {}> = ((
+type withAuthenticatedUserCallback<P extends {}> = (
   context: GetServerSidePropsContext,
   store: AppStore,
   user: IUser
-) => Promise<GetServerSidePropsResult<P>>);
+) => Promise<GetServerSidePropsResult<P>>;
 
-export function withAuthenticatedUser<P>(gssp: withAuthenticatedUserCallback<P>) : GetServerSideProps{
-  return wrapper.getServerSideProps(store => async (context: GetServerSidePropsContext) => {
-    const { req } = context;
-    const { dispatch } = store;
+export function withAuthenticatedUser<P>(
+  gssp: withAuthenticatedUserCallback<P>
+): GetServerSideProps {
+  return wrapper.getServerSideProps(
+    (store) => async (context: GetServerSidePropsContext) => {
+      const { req } = context;
+      const { dispatch } = store;
 
-    try {
-      const user = (await getUserSession(req)) as IUser;
+      try {
+        const user = (await getUserSession(req)) as IUser;
 
-      dispatch(logIn(user));
+        dispatch(logIn(user));
 
-      return gssp(context, store, user);
+        return gssp(context, store, user);
+      } catch (error) {
+        console.log(`Error`, error);
 
-    } catch (error) {
-      console.log(`Error`, error);
-
-      return {
-        redirect: {
-          permanent: false,
-          destination: "/auth/login",
-        },
-      };
+        return {
+          redirect: {
+            permanent: false,
+            destination: "/auth/login",
+          },
+        };
+      }
     }
-  });
+  );
 }

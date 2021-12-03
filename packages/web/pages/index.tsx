@@ -1,25 +1,28 @@
-import React, { useEffect, MouseEvent } from "react";
+import React, { useEffect } from "react";
 import { withAuthenticatedUser } from "../lib/auth.session";
-import type { AuthPageProps, ICreateTodo, ITodo, IUser } from "shared";
+import type { AuthPageProps, ITodo } from "shared";
 import { Flex } from "@chakra-ui/layout";
 import { Loading, useFlashMessage } from "ui-components";
-import { TodoItem, TodoForm, CreateTodoEventHandler } from "../components/todos";
+import {
+  TodoItem,
+  TodoForm,
+  CreateTodoEventHandler,
+} from "../components/todos";
 import { useAppSelector, useAppDispatch } from "../app/hooks";
 import { addTodoList, createTodo, selectAllTodos } from "../domain/todoSlice";
 import { unwrapResult } from "@reduxjs/toolkit";
 import { ExternalApi } from "../api";
 
+export const getServerSideProps = withAuthenticatedUser<AuthPageProps>(
+  async (_context, store, user) => {
+    const api = new ExternalApi();
 
-export const getServerSideProps = withAuthenticatedUser<AuthPageProps>(async (_context, store, user) => {
-  const api = new ExternalApi();
+    const result = (await api.getTodosByUserId(user.id)) as ITodo[];
+    await store.dispatch(addTodoList(result));
 
-  const result = await api.getTodosByUserId(user.id)as ITodo[];
-  await store.dispatch(addTodoList(result));
-
-  return { props: {
-
-  }};
-});
+    return { props: {} };
+  }
+);
 
 const Home = () => {
   const dispatch = useAppDispatch();
@@ -40,13 +43,6 @@ const Home = () => {
     }
   }, [flashMessage, loadingError]);
 
-  function onSelectTodoHandler(
-    e: MouseEvent<HTMLAnchorElement>,
-    todoId: string
-  ): void {
-    console.log(todoId);
-  }
-
   const onCreateTodoHandler: CreateTodoEventHandler = async (data, form) => {
     try {
       const resultAction = await dispatch(createTodo(data));
@@ -58,19 +54,13 @@ const Home = () => {
         message: "Invalid description",
       });
     }
-  }
+  };
 
   return (
     <Flex direction="column" my={2}>
       <Loading isLoading={loadingListStatus === "loading"} />
       {todoList &&
-        todoList.map((todo) => (
-          <TodoItem
-            key={todo.id}
-            todo={todo}
-            onSelectTodo={onSelectTodoHandler}
-          />
-        ))}
+        todoList.map((todo) => <TodoItem key={todo.id} todo={todo} />)}
       <TodoForm
         isLoading={loadingCreateStatus === "loading"}
         onSubmit={onCreateTodoHandler}

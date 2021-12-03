@@ -14,4 +14,3 @@ export const AvatarPreview: VFC<AvatarPreviewProps> = ({ file }) => {
     </Box>
   );
 };
-

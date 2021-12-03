@@ -21,5 +21,5 @@ export const FormInput = React.forwardRef<HTMLInputElement, FormInputProps>(
         <FormErrorMessage id={id}>{error?.message}</FormErrorMessage>
       </FormControl>
     );
-  },
+  }
 );

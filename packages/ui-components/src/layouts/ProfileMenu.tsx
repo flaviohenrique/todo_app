@@ -1,4 +1,12 @@
-import { Menu, MenuList, MenuButton, MenuItem, Avatar, HStack, Text } from "@chakra-ui/react";
+import {
+  Menu,
+  MenuList,
+  MenuButton,
+  MenuItem,
+  Avatar,
+  HStack,
+  Text,
+} from "@chakra-ui/react";
 import React, { VFC } from "react";
 
 type ProfileMenuProps = {
@@ -7,7 +15,11 @@ type ProfileMenuProps = {
   links: JSX.Element[];
 };
 
-export const ProfileMenu: VFC<ProfileMenuProps> = ({ name, avatarImgUrl, links }) => {
+export const ProfileMenu: VFC<ProfileMenuProps> = ({
+  name,
+  avatarImgUrl,
+  links,
+}) => {
   return (
     <Menu>
       <MenuButton variant={"solid"}>
@@ -17,13 +29,9 @@ export const ProfileMenu: VFC<ProfileMenuProps> = ({ name, avatarImgUrl, links }
         </HStack>
       </MenuButton>
       <MenuList>
-        { links.map((link, key) => {
-          return (
-            <MenuItem key={key}>
-              {link}
-            </MenuItem>
-          );
-        }) }
+        {links.map((link, key) => {
+          return <MenuItem key={key}>{link}</MenuItem>;
+        })}
       </MenuList>
     </Menu>
   );

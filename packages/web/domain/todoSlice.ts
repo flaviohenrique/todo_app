@@ -1,5 +1,10 @@
 import type { RootState } from "./../app/store";
-import { createAsyncThunk, createSlice, PayloadAction, CaseReducer } from "@reduxjs/toolkit";
+import {
+  createAsyncThunk,
+  createSlice,
+  PayloadAction,
+  CaseReducer,
+} from "@reduxjs/toolkit";
 import type { ITodo, ICreateTodo, LoadingState } from "shared";
 import { ClientApi, ResultError } from "../api";
 
@@ -45,17 +50,20 @@ export const createTodo = createAsyncThunk<
   return result as ITodo;
 });
 
-const internalAddTodoList : CaseReducer<TodoState, PayloadAction<ITodo[]>> = (state, action) => {
-      state.entities = action.payload
-      state.listing.status = "succeeded";
-}
+const internalAddTodoList: CaseReducer<TodoState, PayloadAction<ITodo[]>> = (
+  state,
+  action
+) => {
+  state.entities = action.payload;
+  state.listing.status = "succeeded";
+};
 
 // Then, handle actions in your reducers:
 const todosSlice = createSlice({
   name: "todos",
   initialState: initialState,
   reducers: {
-    addTodoList: internalAddTodoList
+    addTodoList: internalAddTodoList,
   },
   extraReducers: (builder) => {
     builder.addCase(fetchTodos.pending, (state, _action) => {
