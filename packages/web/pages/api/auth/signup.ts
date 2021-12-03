@@ -8,8 +8,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     ...req.body,
   });
 
-  console.log(`@@@@@@ result`, result);
-
   if ((<ResultError>result).message !== undefined) {
     const { status, message } = result as ResultError;
     res.status(status).json({ message: message });

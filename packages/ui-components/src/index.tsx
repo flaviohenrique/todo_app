@@ -1,7 +1,4 @@
 export {
-  onCreateTodoHandler,
-  TodoForm,
-  TodoItem,
   Footer,
   Header,
   NavBar,
@@ -10,5 +7,6 @@ export {
 } from "./layouts";
 
 export { FormInput } from "./forms/Input";
+export { FormInputFile } from "./forms/InputFile";
 
 export { useFlashMessage, FlashMessageStatus } from "./flash";

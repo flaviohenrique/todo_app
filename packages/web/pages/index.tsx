@@ -2,10 +2,10 @@ import React, { useEffect, MouseEvent } from "react";
 import { withAuthenticatedUser } from "../lib/auth.session";
 import type { AuthPageProps, ICreateTodo, ITodo, IUser } from "shared";
 import { Flex } from "@chakra-ui/layout";
-import { TodoItem, TodoForm, Loading, useFlashMessage } from "ui-components";
-import { UseFormReturn } from "react-hook-form";
+import { Loading, useFlashMessage } from "ui-components";
+import { TodoItem, TodoForm, CreateTodoEventHandler } from "../components/todos";
 import { useAppSelector, useAppDispatch } from "../app/hooks";
-import { addTodoList, createTodo, fetchTodos, selectAllTodos } from "../domain/todoSlice";
+import { addTodoList, createTodo, selectAllTodos } from "../domain/todoSlice";
 import { unwrapResult } from "@reduxjs/toolkit";
 import { ExternalApi } from "../api";
 
@@ -47,10 +47,7 @@ const Home = () => {
     console.log(todoId);
   }
 
-  async function onCreateTodoHandler(
-    data: ICreateTodo,
-    form: UseFormReturn<ICreateTodo, object>
-  ) {
+  const onCreateTodoHandler: CreateTodoEventHandler = async (data, form) => {
     try {
       const resultAction = await dispatch(createTodo(data));
       unwrapResult(resultAction);

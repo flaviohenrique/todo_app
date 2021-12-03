@@ -30,6 +30,12 @@ declare module "shared" {
     password: string;
   }
 
+  export interface IAddedAvatar {
+    id: string;
+    name: string;
+    mimetype: string;
+  }
+
   export type AuthPageProps = { user?: IUser };
 }
 
