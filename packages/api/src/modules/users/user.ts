@@ -1,59 +1,40 @@
-import { Avatar } from "@chakra-ui/react";
 import { v4 as uuidv4 } from "uuid";
-import { User } from "../../entities/user.orm.entity";
+import { AggregateRoot } from "../../shared/aggregate-root";
 import { UserCreatedEvent } from "./events";
-import { IDomainEvent, IEventedEntity } from "../../infrastructure/events";
-import { AvatarEntity, ICreateAvatar } from "./avatar";
+import { AvatarEntity } from "./avatar";
+import type { ICreateAvatar, ICreateUser, IUserProps } from "./types";
 
-export interface ICreateUser {
-  name: string;
-  email: string;
-  password: string;
-}
-export interface IUserCredentials {
-  email: string;
-  password: string;
-}
-export interface IAddAvatar extends ICreateAvatar {
-  userId: string;
-}
-
-export type FindableUser = Promise<UserEntity | undefined>;
-
-export class UserEntity extends User implements IEventedEntity {
-  public readonly domainEvents: IDomainEvent[] = [];
-
-  addDomainEvent(event: IDomainEvent) {
-    this.domainEvents.push(event);
+export class UserEntity extends AggregateRoot<IUserProps> {
+  get name(): string {
+    return this.props.name;
+  }
+  get email(): string {
+    return this.props.email;
   }
 
-  static build(t: User): UserEntity {
-    return new UserEntity(t);
-  }
-
-  static create(props: ICreateUser): UserEntity {
-    const entity = new UserEntity({
-      id: uuidv4(),
+  static create(create: ICreateUser): UserEntity {
+    const id = uuidv4();
+    const props: IUserProps = {
       createdAt: new Date(),
       updatedAt: new Date(),
-      ...props,
-    });
+      ...create,
+    };
 
-    entity.addDomainEvent(new UserCreatedEvent(entity.id, entity.name));
+    const user = new UserEntity(props, id);
 
-    return entity;
+    user.addDomainEvent(new UserCreatedEvent(user.id, user.name));
+
+    return user;
   }
 
-  addAvatar(props: ICreateAvatar) {
+  addAvatar(props: ICreateAvatar): AvatarEntity {
     const avatar = AvatarEntity.create(props);
-    this.avatar = avatar;
+    this.props.avatar = avatar;
 
-    return this.avatar;
+    return avatar;
   }
 
-  getAvatar(): AvatarEntity | undefined {
-    return this.avatar !== undefined
-      ? AvatarEntity.build(this.avatar)
-      : undefined;
+  get avatar(): AvatarEntity | undefined {
+    return this.props.avatar;
   }
 }

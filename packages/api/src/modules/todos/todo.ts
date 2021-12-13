@@ -1,40 +1,48 @@
 import { v4 as uuidv4 } from "uuid";
-import { Todo } from "../../entities/todo.orm.entity";
+import { TodoStatus } from "../../entities/todo.orm.entity";
+import { AggregateRoot } from "../../shared/aggregate-root";
+import type { ICreateTodo, ITodoProps, IUpdateDescription } from "./types";
 
-interface ITodoProps {
-  description: string;
-  moreDescription?: string;
-}
-
-export interface ICreateTodo extends ITodoProps {
-  userId: string;
-}
-
-export interface IUpdateTodo extends ICreateTodo {
-  id: string;
-}
-
-export class TodoEntity extends Todo {
-  static build(t: Todo): TodoEntity {
-    return new TodoEntity(t);
+export class TodoEntity extends AggregateRoot<ITodoProps> {
+  get status(): string {
+    return this.props.status;
   }
+
+  get description(): string {
+    return this.props.description;
+  }
+  get moreDescription(): string | undefined {
+    return this.props.moreDescription;
+  }
+  get userId(): string {
+    return this.props.userId;
+  }
+  get createdAt(): Date {
+    return this.props.createdAt;
+  }
+  get updatedAt(): Date {
+    return this.props.updatedAt;
+  }
+
   belongsTo(userId: string): boolean {
-    return this.userId === userId;
+    return this.props.userId === userId;
   }
   static create(create: ICreateTodo): TodoEntity {
     const id = uuidv4();
 
-    return new TodoEntity({
-      id,
+    const props: ITodoProps = {
       createdAt: new Date(),
       updatedAt: new Date(),
       ...create,
-    });
+      status: TodoStatus.ACTIVE,
+    };
+
+    return new TodoEntity(props, id);
   }
 
-  updateDescriptions(props: ITodoProps) {
-    this.moreDescription = props.moreDescription;
-    this.description = props.description || "";
-    this.updatedAt = new Date();
+  updateDescriptions(props: IUpdateDescription): void {
+    this.props.moreDescription = props.moreDescription;
+    this.props.description = props.description || "";
+    this.props.updatedAt = new Date();
   }
 }

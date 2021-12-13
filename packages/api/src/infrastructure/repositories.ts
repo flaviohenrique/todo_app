@@ -1,8 +1,6 @@
-import {
-  DomainEvents,
-  IDomainEvent,
-  IEventedEntity,
-} from "../infrastructure/events";
+import { DomainEvents } from "../infrastructure/events";
+
+import { IEventedEntity, IDomainEvent } from "../shared/events";
 
 export abstract class BaseRepository {
   protected domainEventsController!: DomainEvents;

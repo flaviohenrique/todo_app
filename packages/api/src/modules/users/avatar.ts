@@ -1,24 +1,34 @@
 import { v4 as uuidv4 } from "uuid";
-import { File } from "../../entities/file.orm.entity";
+import { Entity } from "../../shared/entity";
+import type { IAvatarProps, ICreateAvatar } from "./types";
 
-export interface ICreateAvatar {
-  name: string;
-  mimetype: string;
-  data: Buffer;
-}
+export class AvatarEntity extends Entity<IAvatarProps> {
+  get name(): string {
+    return this.props.name;
+  }
+  get mimetype(): string {
+    return this.props.mimetype;
+  }
 
-export class AvatarEntity extends File {
-  static build(t: File): AvatarEntity {
-    return new AvatarEntity(t);
+  get data(): Buffer {
+    return this.props.data;
+  }
+
+  get id(): string {
+    return this._id;
   }
 
   static create(create: ICreateAvatar): AvatarEntity {
-    const entity = new AvatarEntity({
-      id: uuidv4(),
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      ...create,
-    });
+    const id = uuidv4();
+
+    const entity = new AvatarEntity(
+      {
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        ...create,
+      },
+      id
+    );
 
     return entity;
   }

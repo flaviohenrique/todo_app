@@ -1,8 +1,9 @@
 import { TodoRepository } from "../todo.repository";
-import { TodoEntity, ICreateTodo } from "../../todos/todo";
+import { TodoEntity } from "../../todos/todo";
 import { Service } from "typedi";
 import { Result } from "@badrap/result";
 import { ExceptionBase } from "../../../shared/errors";
+import type { ICreateTodo } from "../types";
 
 @Service()
 export class CreateTodoByUserService {

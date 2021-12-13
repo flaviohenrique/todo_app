@@ -1,4 +1,4 @@
-import { IDomainEvent } from "../../infrastructure/events";
+import { IDomainEvent } from "../../shared/events";
 
 export class UserCreatedEvent implements IDomainEvent {
   static eventName = "userCreatedEvent";

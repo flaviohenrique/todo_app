@@ -12,7 +12,7 @@ export class TodoRouter {
     private readonly updateTodoByUserController: UpdateTodoByUserController
   ) {}
 
-  register(app: express.Application) {
+  register(app: express.Application): void {
     app.get("/todos", (req: Request, res: Response) => {
       this.listTodosController.list(req, res);
     });

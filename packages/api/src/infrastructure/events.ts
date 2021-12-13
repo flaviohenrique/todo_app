@@ -1,5 +1,6 @@
 import { EventEmitter } from "events";
 import { Service } from "typedi";
+import { IDomainEvent } from "../shared/events";
 
 @Service()
 export class DomainEvents extends EventEmitter {
@@ -8,18 +9,8 @@ export class DomainEvents extends EventEmitter {
   }
 }
 
-export interface IDomainEvent {
-  id: string;
-  readonly eventName: string;
-}
-
 export abstract class EventHandler<T extends IDomainEvent> {
-  handle(event: T) {
+  handle(event: T): void {
     console.log(event.eventName);
   }
-}
-
-export interface IEventedEntity {
-  readonly domainEvents: IDomainEvent[];
-  addDomainEvent(event: IDomainEvent): void;
 }

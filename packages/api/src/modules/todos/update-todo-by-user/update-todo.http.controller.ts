@@ -3,6 +3,7 @@ import { Request, Response } from "express";
 import { Service } from "typedi";
 import { UpdateTodoByUserService } from "./update-todo.service";
 import { User } from "../../../entities/user.orm.entity";
+import { TodoMapper } from "../mapper";
 
 @Service()
 export class UpdateTodoByUserController {
@@ -10,18 +11,16 @@ export class UpdateTodoByUserController {
     private readonly updateTodoByUserService: UpdateTodoByUserService
   ) {}
 
-  async update(req: Request, res: Response) {
-    const user = <User>res.locals.user;
+  async update(req: Request, res: Response): Promise<void> {
     const todoId = req.params.id;
 
     const result = await this.updateTodoByUserService.execute({
       id: todoId,
-      userId: user.id,
       ...req.body,
     });
 
     result.unwrap(
-      (todo) => res.status(200).json(todo),
+      (todo) => res.status(200).json(TodoMapper.toDTO(todo)),
       (error) => {
         switch (error.constructor) {
           case DontBelongsToUserError:

@@ -1,9 +1,11 @@
+import { AvatarEntity } from "./../avatar";
+import { AvatarMapper } from "./../mapper";
 import { Request, Response } from "express";
 import { Service } from "typedi";
 import { UserNotFoundError } from "../errors";
 import { AddAvatarService } from "./add-avatar.service";
 import multer from "multer";
-import { IAddAvatar } from "../user";
+import type { IAddAvatar } from "../types";
 
 export const uploadConfig = multer({ storage: multer.memoryStorage() }).single(
   "avatar"
@@ -25,7 +27,7 @@ export class AddAvatarController {
 
     result.unwrap(
       (user) => {
-        res.status(200).json(user.getAvatar());
+        res.status(200).json(AvatarMapper.toDTO(user.avatar as AvatarEntity));
       },
       (error) => {
         if (error instanceof UserNotFoundError) {

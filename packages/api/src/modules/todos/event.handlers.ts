@@ -2,9 +2,10 @@ import { Container, Service } from "typedi";
 import { DomainEvents, EventHandler } from "../../infrastructure/events";
 import { UserCreatedEvent } from "../users/events";
 import { CreateTodoByUserService } from "./create-todo-by-user/create-todo.service";
-import { ICreateTodo } from "./todo";
+import type { ICreateTodo } from "./types";
 
 @Service(`${UserCreatedEvent.eventName}Handler`)
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 class WelcomeTodoEventHandler extends EventHandler<UserCreatedEvent> {
   constructor(
     private readonly createTodoByUserService: CreateTodoByUserService
@@ -37,7 +38,7 @@ export class TodoEventHandlers {
     console.log("this.domainEvents", domainEvents);
   }
 
-  init() {
+  init(): void {
     this.domainEvents.on(UserCreatedEvent.eventName, (e) => {
       Container.get<EventHandler<UserCreatedEvent>>(
         `${UserCreatedEvent.eventName}Handler`
