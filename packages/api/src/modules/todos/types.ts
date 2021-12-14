@@ -1,10 +1,12 @@
 import type { TodoEntity } from "./todo";
 
+export type TodoStatus = "active" | "deleted" | "done" | "archived";
+
 export interface ITodoProps {
   description: string;
   moreDescription?: string;
   userId: string;
-  status: string;
+  status: TodoStatus;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -17,6 +19,11 @@ export interface ICreateTodo {
 
 export interface IUpdateTodo extends ICreateTodo {
   id: string;
+}
+
+export interface IDoneTodo {
+  id: string;
+  userId: string;
 }
 
 export type IUpdateDescription = Pick<

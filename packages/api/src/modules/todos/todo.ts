@@ -45,4 +45,8 @@ export class TodoEntity extends AggregateRoot<ITodoProps> {
     this.props.description = props.description || "";
     this.props.updatedAt = new Date();
   }
+
+  done(): void {
+    this.props.status = "done";
+  }
 }
