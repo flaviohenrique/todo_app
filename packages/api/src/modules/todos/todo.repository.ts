@@ -3,7 +3,7 @@ import { TodoEntity } from "./todo";
 import { Service } from "typedi";
 import { Repository } from "typeorm";
 import { Todo } from "../../entities/todo.orm.entity";
-import { BaseRepository } from "../../infrastructure/repositories";
+import { BaseRepository } from "../../infra/repositories";
 import { TodoMapper } from "./mapper";
 import type { Findable } from "../../shared/types";
 import { ITodoRepository } from "./types";

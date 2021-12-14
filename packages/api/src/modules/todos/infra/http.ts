@@ -1,6 +1,6 @@
-import { UpdateTodoByUserController } from "./../modules/todos/update-todo-by-user/update-todo.http.controller";
-import { CreateTodoByUserController } from "./../modules/todos/create-todo-by-user/create-todo.http.controller";
-import { ListTodoController } from "../modules/todos/list-by-user/list.http.controller";
+import { UpdateTodoByUserController } from "../update-todo-by-user/update-todo.http.controller";
+import { CreateTodoByUserController } from "../create-todo-by-user/create-todo.http.controller";
+import { ListTodoController } from "../list-by-user/list.http.controller";
 import express, { Request, Response } from "express";
 import { Service } from "typedi";
 

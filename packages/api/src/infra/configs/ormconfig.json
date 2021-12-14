@@ -14,14 +14,14 @@
     "src/entities/**/*orm.entity.ts"
   ],
   "migrations": [
-    "src/infrastructure/database/migrations/**/*.ts"
+    "src/infra/database/migrations/**/*.ts"
   ],
   "subscribers": [
     "src/subscribers/**/*.ts"
   ],
   "cli": {
     "entitiesDir": "src/entities",
-    "migrationsDir": "src/infrastructure/database/migrations",
-    "subscribersDir": "src/infrastructure/database/subscribers"
+    "migrationsDir": "src/infra/database/migrations",
+    "subscribersDir": "src/infra/database/subscribers"
   }
 }

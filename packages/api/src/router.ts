@@ -1,7 +1,7 @@
 import express from "express";
 import { Service } from "typedi";
-import { UserRouter } from "./user.router";
-import { TodoRouter } from "./todo.router";
+import { UserRouter } from "./modules/users/infra/http";
+import { TodoRouter } from "./modules/todos/infra/http";
 
 @Service()
 export class Router {
@@ -10,7 +10,7 @@ export class Router {
     private readonly todoRouter: TodoRouter
   ) {}
 
-  register(app: express.Application) {
+  register(app: express.Application): void {
     this.userRouter.register(app);
     this.todoRouter.register(app);
   }

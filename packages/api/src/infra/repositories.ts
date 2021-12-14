@@ -1,4 +1,4 @@
-import { DomainEvents } from "../infrastructure/events";
+import { DomainEvents } from "./events";
 
 import { IEventedEntity, IDomainEvent } from "../shared/events";
 

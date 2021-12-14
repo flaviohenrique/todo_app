@@ -1,6 +1,6 @@
 import { Entity, Column, ManyToOne, JoinColumn } from "typeorm";
 import { User } from "./user.orm.entity";
-import { EntityBase } from "../infrastructure/database/entity.base";
+import { EntityBase } from "../infra/database/entity.base";
 
 export enum TodoStatus {
   ACTIVE = "active",

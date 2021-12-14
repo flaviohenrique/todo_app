@@ -1,5 +1,5 @@
 import { Container, Service } from "typedi";
-import { DomainEvents, EventHandler } from "../../infrastructure/events";
+import { DomainEvents, EventHandler } from "../../infra/events";
 import { UserCreatedEvent } from "../users/events";
 import { CreateTodoByUserService } from "./create-todo-by-user/create-todo.service";
 import type { ICreateTodo } from "./types";

@@ -1,12 +1,12 @@
-import { GetAvatarFileController } from "./../modules/users/get-avatar-file/get-avatar-file.http.controller";
+import { GetAvatarFileController } from "../get-avatar-file/get-avatar-file.http.controller";
 import {
   AddAvatarController,
   uploadConfig,
-} from "./../modules/users/add-avatar/add-avatar.http.controller";
-import { CreateUserController } from "../modules/users/create-user/create-user.http.controller";
+} from "../add-avatar/add-avatar.http.controller";
+import { CreateUserController } from "../create-user/create-user.http.controller";
 import express from "express";
 import { Service } from "typedi";
-import { LoginController } from "../modules/users/login/login.http.controller";
+import { LoginController } from "../login/login.http.controller";
 
 @Service()
 export class UserRouter {
