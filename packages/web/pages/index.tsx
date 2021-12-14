@@ -16,7 +16,6 @@ import {
   selectAllTodos,
   doneTodo,
 } from "../domain/todoSlice";
-import { unwrapResult } from "@reduxjs/toolkit";
 import { ExternalApi } from "../services";
 
 export const getServerSideProps = withAuthenticatedUser<AuthPageProps>(
@@ -43,11 +42,9 @@ const Home = () => {
     (state) => state.todos.creating
   );
 
-  const {
-    status: loadingUpdateStatus,
-    id: loadingUpdateId,
-    error: updatingError,
-  } = useAppSelector((state) => state.todos.updating);
+  const { id: loadingUpdateId, error: updatingError } = useAppSelector(
+    (state) => state.todos.updating
+  );
 
   useEffect(() => {
     if (updatingError !== null) {

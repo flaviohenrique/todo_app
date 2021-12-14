@@ -9,10 +9,10 @@ export default function LoggedLayout({ children }: LayoutComponentProps) {
   const avatarImgUrl = useAppSelector(selectAvatarImgUrl);
 
   const links = [
-    <Link href="/profile">
+    <Link key="profile" href="/profile">
       <a>My Profile</a>
     </Link>,
-    <Link href="/api/auth/logout">
+    <Link key="logout" href="/api/auth/logout">
       <a>Logout</a>
     </Link>,
   ];

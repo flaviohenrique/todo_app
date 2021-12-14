@@ -1,4 +1,3 @@
-import { request, ServerResponse } from "http";
 import {
   IAddedAvatar,
   ICreateUser,
@@ -32,8 +31,6 @@ export class ExternalApi {
   }
 
   doneTodo(doneTodo: IDoneTodo): Promise<Result<ITodo>> {
-    console.log("External done");
-
     return putJson<undefined, ITodo>(
       `${this.basePath}/todos/${doneTodo.id}/done?userId=${doneTodo.userId}`
     );

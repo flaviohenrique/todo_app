@@ -1,4 +1,4 @@
-import { IAddedAvatar, IDoneTodo } from "./../../shared/index.d";
+import { IAddedAvatar } from "./../../shared/index.d";
 import {
   ICreateTodo,
   ICreateUser,

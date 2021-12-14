@@ -47,7 +47,7 @@ export async function getUserSession(
   return session;
 }
 
-type withAuthenticatedUserCallback<P extends {}> = (
+type withAuthenticatedUserCallback<P extends object> = (
   context: GetServerSidePropsContext,
   store: AppStore,
   user: IUser
