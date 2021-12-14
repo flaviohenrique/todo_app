@@ -1,4 +1,6 @@
 declare module "shared" {
+  export type TodoStatus = "active" | "deleted" | "done" | "archived";
+
   export interface ICreateTodo {
     description: string;
     moreDescription?: string;
@@ -6,6 +8,11 @@ declare module "shared" {
 
   export interface ITodo extends ICreateTodo {
     id: string;
+    status: TodoStatus;
+  }
+  export interface IDoneTodo {
+    id: string;
+    userId: string;
   }
 
   export interface IUser {

@@ -1,4 +1,4 @@
-import { IAddedAvatar } from "./../../shared/index.d";
+import { IAddedAvatar, IDoneTodo } from "./../../shared/index.d";
 import {
   ICreateTodo,
   ICreateUser,
@@ -6,7 +6,13 @@ import {
   IUser,
   IUserCredentials,
 } from "shared";
-import { getJson, putFile, postJson, Result } from "../lib/http.client";
+import {
+  getJson,
+  putFile,
+  putJson,
+  postJson,
+  Result,
+} from "../lib/http.client";
 
 export class ClientApi {
   readonly basePath: string;
@@ -20,6 +26,10 @@ export class ClientApi {
       `${this.basePath}/auth/login`,
       login
     );
+  }
+
+  doneTodo(todoId: string) {
+    return putJson<undefined, ITodo>(`${this.basePath}/todos/${todoId}/done`);
   }
 
   getTodos(): Promise<Result<ITodo[]>> {

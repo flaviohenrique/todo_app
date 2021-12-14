@@ -1,6 +1,6 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { IAddedAvatar, LoadingState } from "shared";
-import { ClientApi, ResultError } from "../api";
+import { ClientApi, ResultError } from "../services";
 import { RootState } from "../app/store";
 
 export interface ProfileState {

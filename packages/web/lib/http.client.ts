@@ -15,18 +15,33 @@ export async function getJson<R>(url: RequestInfo): Promise<Result<R>> {
   return buildJsonResult<R>(result);
 }
 
-export async function postJson<T, R>(
+async function modifyJson<T, R>(
+  method: string,
   url: RequestInfo,
-  data: T
+  data?: T
 ): Promise<Result<R>> {
   const result = await fetch(url, {
-    method: "POST",
+    method: method,
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(data),
+    body: data && JSON.stringify(data),
   });
   return buildJsonResult<R>(result);
+}
+
+export async function postJson<T, R>(
+  url: RequestInfo,
+  data?: T
+): Promise<Result<R>> {
+  return modifyJson<T, R>("POST", url, data);
+}
+
+export async function putJson<T, R>(
+  url: RequestInfo,
+  data?: T
+): Promise<Result<R>> {
+  return modifyJson<T, R>("PUT", url, data);
 }
 
 export async function getStream(

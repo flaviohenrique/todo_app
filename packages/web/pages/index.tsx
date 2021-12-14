@@ -7,11 +7,17 @@ import {
   TodoItem,
   TodoForm,
   CreateTodoEventHandler,
+  SelectTodoEventHandler,
 } from "../components/todos";
 import { useAppSelector, useAppDispatch } from "../app/hooks";
-import { addTodoList, createTodo, selectAllTodos } from "../domain/todoSlice";
+import {
+  addTodoList,
+  createTodo,
+  selectAllTodos,
+  doneTodo,
+} from "../domain/todoSlice";
 import { unwrapResult } from "@reduxjs/toolkit";
-import { ExternalApi } from "../api";
+import { ExternalApi } from "../services";
 
 export const getServerSideProps = withAuthenticatedUser<AuthPageProps>(
   async (_context, store, user) => {
@@ -37,16 +43,36 @@ const Home = () => {
     (state) => state.todos.creating
   );
 
+  const {
+    status: loadingUpdateStatus,
+    id: loadingUpdateId,
+    error: updatingError,
+  } = useAppSelector((state) => state.todos.updating);
+
+  useEffect(() => {
+    if (updatingError !== null) {
+      flashMessage("error", updatingError);
+    }
+  }, [flashMessage, updatingError]);
+
   useEffect(() => {
     if (loadingError !== null) {
       flashMessage("error", loadingError);
     }
   }, [flashMessage, loadingError]);
 
+  const onSelectTodoHandler: SelectTodoEventHandler = async (e, todoId) => {
+    try {
+      await dispatch(doneTodo(todoId)).unwrap();
+    } catch (e) {
+      const error = e as Error;
+      flashMessage("error", error.message);
+    }
+  };
+
   const onCreateTodoHandler: CreateTodoEventHandler = async (data, form) => {
     try {
-      const resultAction = await dispatch(createTodo(data));
-      unwrapResult(resultAction);
+      const _resultAction = await dispatch(createTodo(data)).unwrap();
       form.reset();
     } catch (error) {
       form.setError("description", {
@@ -60,7 +86,14 @@ const Home = () => {
     <Flex direction="column" my={2}>
       <Loading isLoading={loadingListStatus === "loading"} />
       {todoList &&
-        todoList.map((todo) => <TodoItem key={todo.id} todo={todo} />)}
+        todoList.map((todo) => (
+          <TodoItem
+            isLoading={loadingUpdateId === todo.id}
+            key={todo.id}
+            todo={todo}
+            onSelectTodo={onSelectTodoHandler}
+          />
+        ))}
       <TodoForm
         isLoading={loadingCreateStatus === "loading"}
         onSubmit={onCreateTodoHandler}

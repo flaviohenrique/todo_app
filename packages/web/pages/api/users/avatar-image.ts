@@ -1,7 +1,7 @@
 import { StreamResult, ResultError } from "./../../../lib/http.client";
 
 import type { NextApiRequest, NextApiResponse } from "next";
-import { ExternalApi } from "../../../api";
+import { ExternalApi } from "../../../services";
 import { getUserSession } from "../../../lib/auth.session";
 
 import multer from "multer";

@@ -2,6 +2,7 @@ import { request, ServerResponse } from "http";
 import {
   IAddedAvatar,
   ICreateUser,
+  IDoneTodo,
   ITodo,
   IUser,
   IUserCredentials,
@@ -13,6 +14,7 @@ import {
   getStream,
   StreamResult,
   putForm,
+  putJson,
 } from "../lib/http.client";
 import FormData from "form-data";
 export class ExternalApi {
@@ -26,6 +28,14 @@ export class ExternalApi {
     return postJson<IUserCredentials, IUser>(
       `${this.basePath}/users/login`,
       login
+    );
+  }
+
+  doneTodo(doneTodo: IDoneTodo): Promise<Result<ITodo>> {
+    console.log("External done");
+
+    return putJson<undefined, ITodo>(
+      `${this.basePath}/todos/${doneTodo.id}/done?userId=${doneTodo.userId}`
     );
   }
 

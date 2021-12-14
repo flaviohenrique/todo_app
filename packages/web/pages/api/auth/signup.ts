@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { ExternalApi, ResultError } from "../../../api";
+import { ExternalApi, ResultError } from "../../../services";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const api = new ExternalApi();

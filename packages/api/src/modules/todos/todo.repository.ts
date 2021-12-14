@@ -19,9 +19,12 @@ export class TodoRepository extends BaseRepository implements ITodoRepository {
   }
 
   async listByUserId(userId: string): Promise<TodoEntity[]> {
-    return ((await this.repository.find({ userId })) || []).map(
-      TodoMapper.toDomain
-    );
+    return (
+      (await this.repository.find({
+        where: { userId },
+        order: { createdAt: "ASC" },
+      })) || []
+    ).map(TodoMapper.toDomain);
   }
 
   async findById(todoId: string): Findable<TodoEntity> {
