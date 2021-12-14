@@ -1,31 +1,33 @@
+import { AvatarEntity } from "./../avatar";
+import { AvatarMapper } from "./../mapper";
 import { Request, Response } from "express";
 import { Service } from "typedi";
 import { UserNotFoundError } from "../errors";
 import { AddAvatarService } from "./add-avatar.service";
 import multer from "multer";
-import { IAddAvatar } from "../user";
+import type { IAddAvatar } from "../types";
+
+export const uploadConfig = multer({ storage: multer.memoryStorage() }).single(
+  "avatar"
+);
 
 @Service()
 export class AddAvatarController {
   constructor(private readonly addAvatarService: AddAvatarService) {}
 
-  uploadConfig(){
-    return multer({ storage: multer.memoryStorage()}).single('avatar');
-  }
-
-  async addAvatar({ file, params, headers }: Request, res: Response) {
+  async addAvatar({ file, params }: Request, res: Response): Promise<void> {
     const addAvatarProps = <IAddAvatar>{
       name: file?.originalname,
       data: file?.buffer,
       mimetype: file?.mimetype,
-      userId: params.userId
+      userId: params.userId,
     };
 
     const result = await this.addAvatarService.execute(addAvatarProps);
 
     result.unwrap(
       (user) => {
-        res.status(200).json(user.getAvatar());
+        res.status(200).json(AvatarMapper.toDTO(user.avatar as AvatarEntity));
       },
       (error) => {
         if (error instanceof UserNotFoundError) {

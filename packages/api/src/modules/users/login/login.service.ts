@@ -1,8 +1,9 @@
 import { UserRepository } from "../user.repository";
-import { UserEntity, IUserCredentials } from "../../users/user";
+import { UserEntity } from "../../users/user";
 import { Service } from "typedi";
 import { Result } from "@badrap/result";
 import { UserNotFoundError } from "../errors";
+import { IUserCredentials } from "../types";
 
 @Service()
 export class LoginService {

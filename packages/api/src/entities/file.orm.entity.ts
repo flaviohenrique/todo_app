@@ -1,5 +1,5 @@
 import { Entity, Column } from "typeorm";
-import { EntityBase } from "../infrastructure/database/entity.base";
+import { EntityBase } from "../infra/database/entity.base";
 
 @Entity()
 export class File extends EntityBase {

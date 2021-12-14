@@ -17,12 +17,12 @@ export class GetAvatarFileService {
       return Result.err<UserNotFoundError>(new UserNotFoundError());
     }
 
-    const avatar = user.getAvatar()
+    const avatar = user.avatar;
 
-    if(avatar === undefined) {
+    if (avatar === undefined) {
       return Result.err<AvatarNotFoundError>(new AvatarNotFoundError());
     }
 
-    return Result.ok(avatar)
+    return Result.ok(avatar);
   }
 }

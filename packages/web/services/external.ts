@@ -1,6 +1,20 @@
-import { request, ServerResponse } from "http";
-import { IAddedAvatar, ICreateUser, ITodo, IUser, IUserCredentials } from "shared";
-import { getJson, postJson, Result, getStream, StreamResult, putForm } from "../lib/http.client";
+import {
+  IAddedAvatar,
+  ICreateUser,
+  IDoneTodo,
+  ITodo,
+  IUser,
+  IUserCredentials,
+} from "shared";
+import {
+  getJson,
+  postJson,
+  Result,
+  getStream,
+  StreamResult,
+  putForm,
+  putJson,
+} from "../lib/http.client";
 import FormData from "form-data";
 export class ExternalApi {
   readonly basePath: string;
@@ -13,6 +27,12 @@ export class ExternalApi {
     return postJson<IUserCredentials, IUser>(
       `${this.basePath}/users/login`,
       login
+    );
+  }
+
+  doneTodo(doneTodo: IDoneTodo): Promise<Result<ITodo>> {
+    return putJson<undefined, ITodo>(
+      `${this.basePath}/todos/${doneTodo.id}/done?userId=${doneTodo.userId}`
     );
   }
 
@@ -35,15 +55,21 @@ export class ExternalApi {
     return getStream(`${this.basePath}/users/${userId}/avatar`);
   }
 
-  putAvatarImg(userId: string, file: Express.Multer.File | undefined): Promise<Result<IAddedAvatar>> {
-    const form = new FormData()
+  putAvatarImg(
+    userId: string,
+    file: Express.Multer.File | undefined
+  ): Promise<Result<IAddedAvatar>> {
+    const form = new FormData();
 
-    form.append('avatar', file?.buffer, {
+    form.append("avatar", file?.buffer, {
       contentType: file?.mimetype,
       filename: file?.filename,
       filepath: file?.originalname,
     });
 
-    return putForm<IAddedAvatar>(`${this.basePath}/users/${userId}/avatar`,form)
+    return putForm<IAddedAvatar>(
+      `${this.basePath}/users/${userId}/avatar`,
+      form
+    );
   }
 }

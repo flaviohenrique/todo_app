@@ -1,8 +1,9 @@
 import { UserRepository } from "../user.repository";
-import { UserEntity, IAddAvatar } from "../../users/user";
+import { UserEntity } from "../../users/user";
 import { Service } from "typedi";
 import { Result } from "@badrap/result";
 import { UserNotFoundError } from "../errors";
+import type { IAddAvatar } from "../types";
 
 @Service()
 export class AddAvatarService {

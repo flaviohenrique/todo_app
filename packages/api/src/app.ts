@@ -6,8 +6,8 @@ import express from "express";
 import { useContainer } from "typeorm";
 import { Container } from "typeorm-typedi-extensions";
 
-import { withConnection } from "./infrastructure/database";
-import { Router } from "./routes";
+import { withConnection } from "./infra/database";
+import { Router } from "./router";
 
 useContainer(Container);
 

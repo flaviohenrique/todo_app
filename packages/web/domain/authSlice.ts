@@ -2,13 +2,13 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import type { IUser } from "shared";
 
 export interface AuthState {
-  loggedIn: Boolean;
+  loggedIn: boolean;
   name?: string;
   email?: string;
 }
 
 const initialState: AuthState = {
-  loggedIn: false
+  loggedIn: false,
 };
 
 const authSlice = createSlice({
@@ -16,10 +16,10 @@ const authSlice = createSlice({
   initialState: initialState,
   reducers: {
     logIn: (state, action: PayloadAction<IUser>) => {
-      state.loggedIn = true
-      state.name = action.payload.name
-      state.email = action.payload.email
-    }
+      state.loggedIn = true;
+      state.name = action.payload.name;
+      state.email = action.payload.email;
+    },
   },
 });
 

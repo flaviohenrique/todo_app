@@ -1,19 +1,26 @@
 import type { RootState } from "./../app/store";
-import { createAsyncThunk, createSlice, PayloadAction, CaseReducer } from "@reduxjs/toolkit";
+import {
+  createAsyncThunk,
+  createSlice,
+  PayloadAction,
+  CaseReducer,
+} from "@reduxjs/toolkit";
 import type { ITodo, ICreateTodo, LoadingState } from "shared";
-import { ClientApi, ResultError } from "../api";
+import { ClientApi, ResultError } from "../services";
 
 export interface TodoState {
   entities: ITodo[];
   selected?: ITodo;
   listing: LoadingState;
   creating: LoadingState;
+  updating: LoadingState & { id: string | null };
 }
 
 const initialState: TodoState = {
   entities: [],
   listing: { status: "idle", error: null },
   creating: { status: "idle", error: null },
+  updating: { status: "idle", id: null, error: null },
 };
 
 const client = new ClientApi();
@@ -45,17 +52,33 @@ export const createTodo = createAsyncThunk<
   return result as ITodo;
 });
 
-const internalAddTodoList : CaseReducer<TodoState, PayloadAction<ITodo[]>> = (state, action) => {
-      state.entities = action.payload
-      state.listing.status = "succeeded";
-}
+export const doneTodo = createAsyncThunk<
+  ITodo,
+  string,
+  { rejectValue: ResultError }
+>("todos/done", async (todoId, { rejectWithValue }) => {
+  const result = await client.doneTodo(todoId);
+
+  if ((result as ResultError).message !== undefined) {
+    return rejectWithValue(result as ResultError);
+  }
+  return result as ITodo;
+});
+
+const internalAddTodoList: CaseReducer<TodoState, PayloadAction<ITodo[]>> = (
+  state,
+  action
+) => {
+  state.entities = action.payload;
+  state.listing.status = "succeeded";
+};
 
 // Then, handle actions in your reducers:
 const todosSlice = createSlice({
   name: "todos",
   initialState: initialState,
   reducers: {
-    addTodoList: internalAddTodoList
+    addTodoList: internalAddTodoList,
   },
   extraReducers: (builder) => {
     builder.addCase(fetchTodos.pending, (state, _action) => {
@@ -77,6 +100,25 @@ const todosSlice = createSlice({
     builder.addCase(createTodo.rejected, (state, action) => {
       state.creating.status = "failed";
       state.creating.error = action.payload?.message || null;
+    });
+
+    builder.addCase(doneTodo.pending, (state, action) => {
+      state.updating.id = action.meta.arg;
+      state.updating.status = "loading";
+    });
+    builder.addCase(doneTodo.fulfilled, (state, action) => {
+      state.updating.id = null;
+      state.updating.status = "succeeded";
+      const todoIndex = state.entities.findIndex(
+        (e) => e.id == action.payload.id
+      );
+      if (todoIndex >= 0) {
+        state.entities[todoIndex] = action.payload;
+      }
+    });
+    builder.addCase(doneTodo.rejected, (state, action) => {
+      state.updating.status = "failed";
+      state.updating.error = action.payload?.message || null;
     });
   },
 });

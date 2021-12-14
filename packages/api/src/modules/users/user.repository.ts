@@ -3,13 +3,16 @@ import { Repository } from "typeorm";
 import { InjectRepository } from "typeorm-typedi-extensions";
 import { User } from "../../entities/user.orm.entity";
 import { File } from "../../entities/file.orm.entity";
-import { IUserCredentials, UserEntity, FindableUser } from "./user";
 import { UserCreatedEvent } from "./events";
-import { DomainEvents } from "../../infrastructure/events";
-import { BaseRepository } from "../../infrastructure/repositories";
+import { DomainEvents } from "../../infra/events";
+import { BaseRepository } from "../../infra/repositories";
+import { UserMapper, AvatarMapper } from "./mapper";
+import { UserEntity } from "./user";
+import type { IUserCredentials, IUserRepository } from "./types";
+import { Findable } from "../../shared/types";
 
 @Service()
-export class UserRepository extends BaseRepository {
+export class UserRepository extends BaseRepository implements IUserRepository {
   constructor(
     @InjectRepository(User) private repository: Repository<User>,
     @InjectRepository(File) private fileRepository: Repository<File>,
@@ -18,34 +21,36 @@ export class UserRepository extends BaseRepository {
     super();
   }
 
-  async findByEmail(email: string): FindableUser {
+  async findByEmail(email: string): Findable<UserEntity> {
     const user = await this.repository.findOne({ email });
 
-    if (user) return UserEntity.build(user);
+    if (user) return UserMapper.toDomain(user);
 
     return user;
   }
 
-  async findByCredentials(credentials: IUserCredentials): FindableUser {
+  async findByCredentials(credentials: IUserCredentials): Findable<UserEntity> {
     const user = await this.repository.findOne(credentials);
 
-    if (user) return UserEntity.build(user);
+    if (user) return UserMapper.toDomain(user);
 
     return user;
   }
 
-  async findById(userId: string): FindableUser {
+  async findById(userId: string): Findable<UserEntity> {
     const user = await this.repository.findOne(userId);
 
-    if (user) return UserEntity.build(user);
+    if (user) return UserMapper.toDomain(user);
 
     return user;
   }
 
-  async findByIdWithAvatar(userId: string): FindableUser {
-    const user = await this.repository.findOne(userId, { relations: ["avatar"] });
+  async findByIdWithAvatar(userId: string): Findable<UserEntity> {
+    const user = await this.repository.findOne(userId, {
+      relations: ["avatar"],
+    });
 
-    if (user) return UserEntity.build(user);
+    if (user) return UserMapper.toDomain(user);
 
     return user;
   }
@@ -54,20 +59,20 @@ export class UserRepository extends BaseRepository {
     return (await this.findByEmail(email)) ? true : false;
   }
 
-  async create(user: UserEntity): Promise<UserEntity> {
-    await this.repository.save(user);
+  async create(entity: UserEntity): Promise<UserEntity> {
+    await this.repository.save(UserMapper.toPersistence(entity));
 
-    this.dispatchEvents(user, UserCreatedEvent.eventName);
+    this.dispatchEvents(entity, UserCreatedEvent.eventName);
 
-    return user;
+    return entity;
   }
 
   async update(user: UserEntity): Promise<UserEntity> {
-    if(user.avatar) {
-      await this.fileRepository.save(user.avatar)
+    if (user.avatar) {
+      await this.fileRepository.save(AvatarMapper.toPersistence(user.avatar));
     }
 
-    await this.repository.save(user);
+    await this.repository.save(UserMapper.toPersistence(user));
 
     return user;
   }

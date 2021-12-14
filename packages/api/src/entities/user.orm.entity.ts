@@ -1,5 +1,5 @@
 import { Entity, Column, JoinColumn, OneToOne } from "typeorm";
-import { EntityBase } from "../infrastructure/database/entity.base";
+import { EntityBase } from "../infra/database/entity.base";
 import { File } from "../entities/file.orm.entity";
 
 @Entity()

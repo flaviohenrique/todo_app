@@ -74,6 +74,7 @@
     "dist"
   ],
   "dependencies": {
+    "@chakra-ui/icons": "^1.1.1",
     "@types/shared": "^1.0.0"
   }
 }

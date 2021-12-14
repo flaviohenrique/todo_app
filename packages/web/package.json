@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@chakra-ui/icons": "^1.1.1",
     "@hapi/iron": "^6.0.0",
     "@reduxjs/toolkit": "^1.6.2",
     "cookie": "^0.4.1",

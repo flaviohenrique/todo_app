@@ -1,25 +1,33 @@
-import React, { useEffect, MouseEvent } from "react";
+import React, { useEffect } from "react";
 import { withAuthenticatedUser } from "../lib/auth.session";
-import type { AuthPageProps, ICreateTodo, ITodo, IUser } from "shared";
+import type { AuthPageProps, ITodo } from "shared";
 import { Flex } from "@chakra-ui/layout";
 import { Loading, useFlashMessage } from "ui-components";
-import { TodoItem, TodoForm, CreateTodoEventHandler } from "../components/todos";
+import {
+  TodoItem,
+  TodoForm,
+  CreateTodoEventHandler,
+  SelectTodoEventHandler,
+} from "../components/todos";
 import { useAppSelector, useAppDispatch } from "../app/hooks";
-import { addTodoList, createTodo, selectAllTodos } from "../domain/todoSlice";
-import { unwrapResult } from "@reduxjs/toolkit";
-import { ExternalApi } from "../api";
+import {
+  addTodoList,
+  createTodo,
+  selectAllTodos,
+  doneTodo,
+} from "../domain/todoSlice";
+import { ExternalApi } from "../services";
 
+export const getServerSideProps = withAuthenticatedUser<AuthPageProps>(
+  async (_context, store, user) => {
+    const api = new ExternalApi();
 
-export const getServerSideProps = withAuthenticatedUser<AuthPageProps>(async (_context, store, user) => {
-  const api = new ExternalApi();
+    const result = (await api.getTodosByUserId(user.id)) as ITodo[];
+    await store.dispatch(addTodoList(result));
 
-  const result = await api.getTodosByUserId(user.id)as ITodo[];
-  await store.dispatch(addTodoList(result));
-
-  return { props: {
-
-  }};
-});
+    return { props: {} };
+  }
+);
 
 const Home = () => {
   const dispatch = useAppDispatch();
@@ -34,23 +42,34 @@ const Home = () => {
     (state) => state.todos.creating
   );
 
+  const { id: loadingUpdateId, error: updatingError } = useAppSelector(
+    (state) => state.todos.updating
+  );
+
+  useEffect(() => {
+    if (updatingError !== null) {
+      flashMessage("error", updatingError);
+    }
+  }, [flashMessage, updatingError]);
+
   useEffect(() => {
     if (loadingError !== null) {
       flashMessage("error", loadingError);
     }
   }, [flashMessage, loadingError]);
 
-  function onSelectTodoHandler(
-    e: MouseEvent<HTMLAnchorElement>,
-    todoId: string
-  ): void {
-    console.log(todoId);
-  }
+  const onSelectTodoHandler: SelectTodoEventHandler = async (e, todoId) => {
+    try {
+      await dispatch(doneTodo(todoId)).unwrap();
+    } catch (e) {
+      const error = e as Error;
+      flashMessage("error", error.message);
+    }
+  };
 
   const onCreateTodoHandler: CreateTodoEventHandler = async (data, form) => {
     try {
-      const resultAction = await dispatch(createTodo(data));
-      unwrapResult(resultAction);
+      const _resultAction = await dispatch(createTodo(data)).unwrap();
       form.reset();
     } catch (error) {
       form.setError("description", {
@@ -58,7 +77,7 @@ const Home = () => {
         message: "Invalid description",
       });
     }
-  }
+  };
 
   return (
     <Flex direction="column" my={2}>
@@ -66,6 +85,7 @@ const Home = () => {
       {todoList &&
         todoList.map((todo) => (
           <TodoItem
+            isLoading={loadingUpdateId === todo.id}
             key={todo.id}
             todo={todo}
             onSelectTodo={onSelectTodoHandler}
